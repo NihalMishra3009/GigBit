@@ -2520,7 +2520,7 @@ function registerVerifiedKey(email: string): string {
 
 async function markRegisterVerified(email: string): Promise<void> {
   registerVerifiedMemory.set(email, Date.now() + 15 * 60 * 1000);
-  if (!redis.isOpen) return;
+  if (!redis?.isOpen) return;
   try {
     await redis.set(registerVerifiedKey(email), "1", { EX: 900 });
   } catch {
@@ -2533,6 +2533,7 @@ async function isRegisterVerified(email: string): Promise<boolean> {
   if (mem && mem > Date.now()) return true;
   if (mem) registerVerifiedMemory.delete(email);
 
+  if (!redis?.isOpen) return false;
   try {
     return (await redis.get(registerVerifiedKey(email))) === "1";
   } catch {
@@ -2542,7 +2543,7 @@ async function isRegisterVerified(email: string): Promise<boolean> {
 
 async function clearRegisterVerified(email: string): Promise<void> {
   registerVerifiedMemory.delete(email);
-  if (!redis.isOpen) return;
+  if (!redis?.isOpen) return;
   try {
     await redis.del(registerVerifiedKey(email));
   } catch {
@@ -2551,7 +2552,7 @@ async function clearRegisterVerified(email: string): Promise<void> {
 }
 
 async function safeRedisDel(key: string): Promise<void> {
-  if (!redis.isOpen) return;
+  if (!redis?.isOpen) return;
   try {
     await redis.del(key);
   } catch {
@@ -3495,7 +3496,9 @@ async function ensureAdminAccount(): Promise<void> {
 
 async function start(): Promise<void> {
   try {
-    await redis.connect();
+    if (redis) {
+      await redis.connect();
+    }
   } catch (error) {
     console.warn("Redis unavailable, continuing with degraded mode", error);
   }

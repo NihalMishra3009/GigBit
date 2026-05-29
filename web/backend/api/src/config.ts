@@ -13,7 +13,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(4000),
   JWT_SECRET: z.string().min(16),
   DATABASE_URL: z.string().url(),
-  REDIS_URL: z.string().url().default("redis://127.0.0.1:6379"),
+  REDIS_URL: z.string().url().optional(),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().default(587),
   SMTP_USER: z.string().optional(),
