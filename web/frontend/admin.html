@@ -1381,8 +1381,16 @@
     function resolveAdminApiBase() {
       const raw = localStorage.getItem("gigbit_admin_api_base") || "";
       const v = raw.trim();
-      if (/^https?:\/\/[^ ]+/i.test(v)) return v.replace(/\/+$/, "");
       const fromWindow = String(window.GIGBIT_API_BASE || "").trim();
+      const isLocalHost = location.hostname === "127.0.0.1" || location.hostname === "localhost";
+      if (isLocalHost) {
+        if (/^https?:\/\/[^ ]+/i.test(v)) {
+          const normalized = v.replace(/\/+$/, "");
+          if (/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?/i.test(normalized)) return normalized;
+        }
+        return "http://127.0.0.1:4000";
+      }
+      if (/^https?:\/\/[^ ]+/i.test(v)) return v.replace(/\/+$/, "");
       if (/^https?:\/\/[^ ]+/i.test(fromWindow)) return fromWindow.replace(/\/+$/, "");
       const fromMeta = (document.querySelector('meta[name="gigbit-api-base"]')?.getAttribute("content") || "").trim();
       if (/^https?:\/\/[^ ]+/i.test(fromMeta)) return fromMeta.replace(/\/+$/, "");
