@@ -14,6 +14,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16),
   DATABASE_URL: z.string().url(),
   REDIS_URL: z.string().url().optional(),
+  CORS_ORIGINS: z.string().optional(),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().default(587),
   SMTP_USER: z.string().optional(),

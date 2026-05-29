@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 const String _definedApiBaseUrl = String.fromEnvironment('API_BASE_URL');
 const String _definedHostLanIp = String.fromEnvironment('HOST_LAN_IP');
-const String _railwayProductionApiBase = 'https://gigbit-api-production.up.railway.app';
 
 String? definedApiBaseUrl() {
   return _definedApiBaseUrl.isNotEmpty ? _definedApiBaseUrl : null;
@@ -67,10 +66,17 @@ String resolveApiBaseUrl() {
   }
 
   if (kIsWeb) {
-    return 'http://localhost:4000';
+    if (kDebugMode) {
+      return 'http://localhost:4000';
+    }
+    return '/api';
   }
 
-  // Default mobile fallback: always use production Railway API unless explicitly
-  // overridden by runtime/build-time URL.
-  return _railwayProductionApiBase;
+  if (kDebugMode) {
+    return 'http://127.0.0.1:4000';
+  }
+
+  throw StateError(
+    'API_BASE_URL must be provided for release builds so the backend URL stays out of the app bundle.',
+  );
 }
