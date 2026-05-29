@@ -180,6 +180,41 @@ function taxT(lang: TaxLang, en: string, hi: string, mr: string): string {
   return en;
 }
 
+function parseCorsOrigins(value?: string): string[] {
+  return String(value ?? "")
+    .split(",")
+    .map((origin) => origin.trim().replace(/\/+$/, ""))
+    .filter(Boolean);
+}
+
+const defaultCorsOrigins = [
+  "http://127.0.0.1:3000",
+  "http://localhost:3000",
+  "http://127.0.0.1:4173",
+  "http://localhost:4173",
+  "http://127.0.0.1:8080",
+  "http://localhost:8080",
+  "capacitor://localhost",
+  "ionic://localhost",
+];
+
+const allowedCorsOrigins = new Set([
+  ...defaultCorsOrigins,
+  ...parseCorsOrigins(env.CORS_ORIGINS),
+]);
+
+function isAllowedCorsOrigin(origin: string): boolean {
+  const normalized = String(origin ?? "").trim().replace(/\/+$/, "");
+  if (!normalized) return false;
+  if (allowedCorsOrigins.has(normalized)) return true;
+  try {
+    const parsed = new URL(normalized);
+    return parsed.hostname.endsWith(".railway.app");
+  } catch {
+    return false;
+  }
+}
+
 function planIncrement(plan: string): number {
   const p = plan.trim().toLowerCase();
   if (p === "solo") return 1;
@@ -384,7 +419,22 @@ async function refreshSubscriptionRuntimeState(userId: string): Promise<Subscrip
     recentlyExpiredPlanWindows: windows.recentExpired,
   };
 }
-app.use(cors());
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      if (isAllowedCorsOrigin(origin)) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error(`CORS blocked for origin ${origin}`), false);
+    },
+    credentials: true,
+  }),
+);
 app.use(express.json({ limit: "80mb" }));
 app.use((req, _res, next) => {
   const header = req.header("authorization");

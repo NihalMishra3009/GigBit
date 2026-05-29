@@ -48,7 +48,7 @@ Recommended Railway split:
 - Backend/API: Railway service running `web/backend/api`
 - Database: Railway Postgres
 - Redis: Railway Redis if you want cache/queue support
-- Web frontend: Cloudflare Pages or similar static hosting
+- Web frontend: Cloudflare Pages or similar static hosting, with `/api` proxying to the Railway backend
 - Mobile app: APK distribution or Play Store build pipeline
 
 ## Backend Choice
@@ -59,6 +59,8 @@ The project uses one shared backend:
 - The web app and Flutter app both call that API
 - Local dev uses Docker Compose
 - Production can run the API on Railway with Railway Postgres attached
+- The backend CORS allowlist is driven by `CORS_ORIGINS`
+- Flutter release builds should pass `API_BASE_URL` at build time instead of hardcoding the API URL
 
 ## Environment Files
 

@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="gigbit-api-base" content="https://gigbit-api-production.up.railway.app" />
   <title>GigBit - Financial Platform For Gig Workers</title>
   <style>
     :root {
@@ -683,21 +682,21 @@
       const fromAdmin = (localStorage.getItem("gigbit_admin_api_base") || "").trim();
       const fromWindow = String(window.GIGBIT_API_BASE || "").trim();
       const isLocalHost = location.hostname === "127.0.0.1" || location.hostname === "localhost";
+      const isRelative = (value) => /^\/(?!\/)/.test(value);
+      const normalize = (value) => value.replace(/\/+$/, "");
       if (isLocalHost) {
         if (/^https?:\/\/[^ ]+/i.test(fromAdmin)) {
-          const normalized = fromAdmin.replace(/\/+$/, "");
+          const normalized = normalize(fromAdmin);
           if (/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?/i.test(normalized)) return normalized;
         }
+        if (isRelative(fromAdmin)) return normalize(fromAdmin);
         return "http://127.0.0.1:4000";
       }
-      if (/^https?:\/\/[^ ]+/i.test(fromAdmin)) return fromAdmin.replace(/\/+$/, "");
-      if (/^https?:\/\/[^ ]+/i.test(fromWindow)) return fromWindow.replace(/\/+$/, "");
-      const fromMeta = (document.querySelector('meta[name="gigbit-api-base"]')?.getAttribute("content") || "").trim();
-      if (/^https?:\/\/[^ ]+/i.test(fromMeta)) return fromMeta.replace(/\/+$/, "");
-      if (location.protocol.startsWith("http")) {
-        return `${location.protocol}//${location.hostname}:4000`;
-      }
-      return "http://127.0.0.1:4000";
+      if (/^https?:\/\/[^ ]+/i.test(fromAdmin)) return normalize(fromAdmin);
+      if (isRelative(fromAdmin)) return normalize(fromAdmin);
+      if (/^https?:\/\/[^ ]+/i.test(fromWindow)) return normalize(fromWindow);
+      if (isRelative(fromWindow)) return normalize(fromWindow);
+      return "/api";
     }
 
     async function hasValidAdminSession() {
