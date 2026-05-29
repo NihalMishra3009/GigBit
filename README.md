@@ -43,12 +43,27 @@ Repository: [NihalMishra3009/GigBit](https://github.com/NihalMishra3009/GigBit.g
 
 ## Deployment
 
-Recommended deployment split:
+Recommended Railway split:
 
-- Backend/API: Railway
-- Database: Supabase Postgres or managed Postgres
+- Backend/API: Railway service running `web/backend/api`
+- Database: Railway Postgres
+- Redis: Railway Redis if you want cache/queue support
 - Web frontend: Cloudflare Pages or similar static hosting
 - Mobile app: APK distribution or Play Store build pipeline
+
+## Backend Choice
+
+The project uses one shared backend:
+
+- API code lives in `web/backend/api`
+- The web app and Flutter app both call that API
+- Local dev uses Docker Compose
+- Production can run the API on Railway with Railway Postgres attached
+
+## Environment Files
+
+- `web/backend/api/.env.example` for local development
+- `.env.railway.example` for Railway deployment
 
 ## Notes
 

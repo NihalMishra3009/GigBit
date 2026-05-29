@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/app_strings.dart';
-import 'core/api_client.dart';
 import 'core/base_url.dart';
 import 'core/backend_resolver.dart';
 import 'core/device_notification_service.dart';
@@ -73,9 +72,9 @@ class _GigBitAppState extends State<GigBitApp> {
       await prefs.setString(kApiBaseUrlPrefKey, defined);
       setRuntimeApiBaseUrl(defined);
     } else {
-      // 2) Load persisted base URL, but sanitize it (reject stale LAN IPs).
+      // 2) Load persisted base URL, but sanitize it.
       final persisted = prefs.getString(kApiBaseUrlPrefKey);
-      final migrated = sanitizeApiBaseUrl(migrateLegacyApiBaseUrl(persisted));
+      final migrated = sanitizeApiBaseUrl(persisted);
       setRuntimeApiBaseUrl(migrated);
       if (migrated != null && migrated != persisted) {
         await prefs.setString(kApiBaseUrlPrefKey, migrated);

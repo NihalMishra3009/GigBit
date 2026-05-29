@@ -17,19 +17,10 @@ const String kApiBaseUrlPrefKey = 'api_base_url';
 
 String? _runtimeApiBaseUrl;
 
-String? migrateLegacyApiBaseUrl(String? url) {
-  var v = (url ?? '').trim();
-  if (v.isEmpty) return null;
-  if (v.contains('gigbit-api.onrender.com') || v.contains('.onrender.com')) {
-    return _railwayProductionApiBase;
-  }
-  return v;
-}
-
 /// Normalizes + rejects persisted URLs that cause Android-to-host connectivity
 /// issues.
 String? sanitizeApiBaseUrl(String? url) {
-  var v = migrateLegacyApiBaseUrl(url) ?? '';
+  var v = (url ?? '').trim();
   if (v.isEmpty) return null;
   if (v.endsWith('/')) v = v.substring(0, v.length - 1);
 

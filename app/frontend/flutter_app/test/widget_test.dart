@@ -13,7 +13,7 @@ void main() {
         initialThemeMode: ThemeMode.dark,
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 1));
 
     expect(find.text('GigBit'), findsWidgets);
   });
