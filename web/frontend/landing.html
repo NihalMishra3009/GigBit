@@ -681,8 +681,16 @@
 
     function resolveApiBase() {
       const fromAdmin = (localStorage.getItem("gigbit_admin_api_base") || "").trim();
-      if (/^https?:\/\/[^ ]+/i.test(fromAdmin)) return fromAdmin.replace(/\/+$/, "");
       const fromWindow = String(window.GIGBIT_API_BASE || "").trim();
+      const isLocalHost = location.hostname === "127.0.0.1" || location.hostname === "localhost";
+      if (isLocalHost) {
+        if (/^https?:\/\/[^ ]+/i.test(fromAdmin)) {
+          const normalized = fromAdmin.replace(/\/+$/, "");
+          if (/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?/i.test(normalized)) return normalized;
+        }
+        return "http://127.0.0.1:4000";
+      }
+      if (/^https?:\/\/[^ ]+/i.test(fromAdmin)) return fromAdmin.replace(/\/+$/, "");
       if (/^https?:\/\/[^ ]+/i.test(fromWindow)) return fromWindow.replace(/\/+$/, "");
       const fromMeta = (document.querySelector('meta[name="gigbit-api-base"]')?.getAttribute("content") || "").trim();
       if (/^https?:\/\/[^ ]+/i.test(fromMeta)) return fromMeta.replace(/\/+$/, "");

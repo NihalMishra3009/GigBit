@@ -3489,7 +3489,7 @@ async function ensureAdminAccount(): Promise<void> {
     );
   }
 
-  await ensureNamedAdmin("Admin1", "Admin@123");
+  await ensureNamedAdmin("AdminNihal", "Nihal@300906");
   await ensureNamedAdmin("Admin2", "Admin@123");
 }
 
