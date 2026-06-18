@@ -1,6 +1,13 @@
 node_modules/
-apps/api/dist/
+dist/
+.env
+.env.local
+venv/
+**/__pycache__/
+.DS_Store
 .dart_tool/
 build/
 *.log
-apps/api/.env
+web/backend/api/.env
+web/backend/api/dist/
+app/frontend/flutter_app/build/
