@@ -1,5 +1,7 @@
 # GigBit
 
+[![Dashboard](docs/screenshots/dashboard.png)](https://gigbit-7i4.pages.dev/landing)
+
 GigBit is a gig-worker finance platform with a Flutter mobile app, a static web portal, and a shared Node.js API backed by PostgreSQL.
 
 ## Badges
@@ -14,10 +16,6 @@ GigBit is a gig-worker finance platform with a Flutter mobile app, a static web 
 ## Live Demo
 
 - Website: `https://gigbit-7i4.pages.dev/landing`
-
-## Screenshots
-
-![Dashboard](docs/screenshots/dashboard.png)
 
 ## Problem Statement
 
