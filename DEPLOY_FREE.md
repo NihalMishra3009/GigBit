@@ -1,20 +1,20 @@
-# Deployment Plan (Railway + Supabase + Cloudflare)
+# Deployment Plan (Railway + Cloudflare)
 
 This setup uses:
 
 - Web frontend/admin: Cloudflare Pages
 - Backend/API: Railway
-- Database: Supabase Postgres
+- Database: Railway Postgres
 - Cache: Railway Redis
 - APK distribution: GitHub Releases / project-hosted APK link
 
-## 1) Deploy Database (Supabase)
+## 1) Deploy Database (Railway Postgres)
 
-1. Create Supabase project.
-2. Open SQL Editor.
+1. Create Railway Postgres in your Railway workspace.
+2. Open the Railway database console or use your local SQL client.
 3. Run schema from:
 - `web/database/schema.sql`
-4. Copy Postgres connection string (pooler URL recommended).
+4. Copy the Railway Postgres connection string.
 
 ## 2) Deploy Backend API (Railway)
 
@@ -25,12 +25,12 @@ This setup uses:
 - Start Command: `npm run start`
 - Healthcheck: `/health`
 
-3. Add Railway Redis plugin and copy Redis URL.
+3. Add Railway Redis plugin only if you need it.
 
 4. Set Railway env vars:
 - `PORT=4000`
 - `JWT_SECRET=<strong-random-secret>`
-- `DATABASE_URL=<from Supabase>`
+- `DATABASE_URL=<from Railway Postgres>`
 - `REDIS_URL=<from Railway Redis>`
 - `ADMIN_API_KEY=<your key>`
 - SMTP vars (OTP/email)
@@ -52,7 +52,7 @@ This setup uses:
 Set API base URL using either:
 
 - `scripts\prepare-web-release.cmd -ApiBaseUrl "https://<your-railway-domain>"`
-- or directly in meta tag in:
+- or directly in the meta tag in:
   - `web/frontend/landing.html`
   - `web/frontend/admin.html`
 
@@ -65,6 +65,6 @@ Set API base URL using either:
 
 ## Notes
 
-- Supabase is the recommended DB for this codebase because backend is PostgreSQL-native.
+- Railway Postgres is the recommended DB for this deployment path because the backend is PostgreSQL-native.
 - Keep `web/database/schema.sql` as source of truth for DB bootstrap.
-- If Railway domain changes, rerun `prepare-web-release.cmd` and redeploy web.
+- If the Railway domain changes, rerun `prepare-web-release.cmd` and redeploy the web app.

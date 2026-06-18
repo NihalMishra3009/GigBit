@@ -1,4 +1,4 @@
-# Deploy Now (Railway + Supabase + Cloudflare)
+# Deploy Now (Railway + Cloudflare)
 
 This is the fastest production path for GigBit now.
 
@@ -19,19 +19,18 @@ scripts\prepare-web-release.cmd -ApiBaseUrl "https://YOUR-RAILWAY-API-DOMAIN"
 3. Push to GitHub:
 ```bat
 git add .
-git commit -m "Prepare Railway + Supabase deploy"
+git commit -m "Prepare Railway + Cloudflare deploy"
 git push
 ```
 
-## B) Supabase (Database)
+## B) Railway Postgres (Database)
 
-1. Create a new Supabase project.
-2. In Supabase SQL Editor, run:
+1. Create Railway Postgres in the same Railway project or workspace.
+2. Run the schema from:
 - `web/database/schema.sql`
-3. Copy connection string from Supabase:
-- Transaction pooler URL preferred for hosted Node API.
+3. Copy the Railway Postgres connection string into `DATABASE_URL`.
 
-## C) Railway (API + Redis)
+## C) Railway (API + optional Redis)
 
 1. Create Railway project.
 2. Add GitHub service from this repo.
@@ -41,12 +40,12 @@ git push
 - Start command: `npm run start`
 - Healthcheck path: `/health`
 
-4. Add Redis plugin in Railway (if using Redis in production).
+4. Add Redis plugin in Railway only if you want cache/queue support.
 
 5. Env vars in Railway service:
 - `PORT=4000`
 - `JWT_SECRET=<long random secret>`
-- `DATABASE_URL=<Supabase Postgres connection string>`
+- `DATABASE_URL=<Railway Postgres connection string>`
 - `REDIS_URL=<Railway Redis URL>`
 - `ADMIN_API_KEY=<your key>`
 - `SMTP_HOST=<smtp host>`
@@ -70,7 +69,8 @@ git push
 2. Build settings:
 - Build command: *(empty)*
 - Output directory: `web/frontend`
-3. Deploy.
+3. Set the public API base for the deployed web app to the Railway backend URL.
+4. Deploy.
 
 ## E) Verify
 
