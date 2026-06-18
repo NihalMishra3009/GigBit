@@ -696,7 +696,7 @@
       if (isRelative(fromAdmin)) return normalize(fromAdmin);
       if (/^https?:\/\/[^ ]+/i.test(fromWindow)) return normalize(fromWindow);
       if (isRelative(fromWindow)) return normalize(fromWindow);
-      return "/api";
+      return "https://gigbit-production.up.railway.app";
     }
 
     async function hasValidAdminSession() {
