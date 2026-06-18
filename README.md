@@ -13,8 +13,7 @@ GigBit is a gig-worker finance platform with a Flutter mobile app, a static web 
 
 ## Live Demo
 
-- Frontend: `https://YOUR-CLOUDFLARE-PAGES-URL`
-- Backend API: `https://YOUR-RAILWAY-URL`
+- Website: `https://gigbit-7i4.pages.dev/landing`
 
 ## Screenshots
 
