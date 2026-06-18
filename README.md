@@ -20,6 +20,10 @@ GigBit is a gig-worker finance platform with a Flutter mobile app, a static web 
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
+![Landing](docs/screenshots/landing.png)
+
+![Mobile View](docs/screenshots/mobile-view.png)
+
 ## Problem Statement
 
 Gig workers often manage income across multiple platforms, but their earnings, withdrawals, deductions, and support requests are scattered across different systems. That creates three common problems:
@@ -41,13 +45,16 @@ GigBit centralizes these flows so workers and operators can see a clearer financ
 - Real-time updates for platform and approval activity
 - Shared API for web and mobile clients
 
-## Architecture
+## Connectivity
+
+GigBit keeps the web portal and mobile app connected to the same backend so data stays in sync in real time.
 
 ```mermaid
 flowchart TD
-  U[Users] --> C[Cloudflare Pages]
-  C --> R[Railway Backend API]
-  R --> P[(Railway PostgreSQL)]
+  W[Web Portal] --> API[Railway Backend API]
+  M[Mobile App] --> API
+  API <-->|real-time updates| M
+  API --> DB[(Railway PostgreSQL)]
 ```
 
 ## Tech Stack
