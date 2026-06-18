@@ -20,12 +20,6 @@ GigBit is a gig-worker finance platform with a Flutter mobile app, a static web 
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
-![Transactions](docs/screenshots/transactions.png)
-
-![Payouts](docs/screenshots/payouts.png)
-
-![Mobile View](docs/screenshots/mobile-view.png)
-
 ## Problem Statement
 
 Gig workers often manage income across multiple platforms, but their earnings, withdrawals, deductions, and support requests are scattered across different systems. That creates three common problems:
