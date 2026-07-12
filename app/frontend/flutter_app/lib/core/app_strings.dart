@@ -153,6 +153,7 @@ class AppStrings {
       'enter_valid_email': 'Enter a valid email',
       'otp_must_be_6_digits': 'OTP must be 6 digits',
       'otp_verified_continue': 'OTP verified. Continue registration.',
+      'debug_otp_notice': 'Dev OTP:',
       'dev_mode': '(dev mode)',
       'coming_soon': 'Coming soon',
       'integrate_gig_platforms': 'Integrate Gig Platforms',

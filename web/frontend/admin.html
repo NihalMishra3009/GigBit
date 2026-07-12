@@ -1396,7 +1396,8 @@
       if (isRelative(v)) return normalize(v);
       if (/^https?:\/\/[^ ]+/i.test(fromWindow)) return normalize(fromWindow);
       if (isRelative(fromWindow)) return normalize(fromWindow);
-      return "https://gigbit-production.up.railway.app";
+      const fallbackOrigin = String(window.location.origin || "").replace(/\/+$/, "");
+      return fallbackOrigin || "http://127.0.0.1:4000";
     }
 
     const state = {

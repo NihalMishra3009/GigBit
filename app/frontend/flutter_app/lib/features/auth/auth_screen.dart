@@ -45,6 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   bool _registerOtpSent = false;
   bool _registerOtpVerified = false;
+  String? _registerOtpValue;
 
   bool _termsAccepted = false;
   bool _vehicleRented = false;
@@ -161,6 +162,7 @@ class _AuthScreenState extends State<AuthScreen> {
   void _resetRegisterFlow() {
     _registerOtpSent = false;
     _registerOtpVerified = false;
+    _registerOtpValue = null;
     _registerOtpController.clear();
 
     _termsAccepted = false;
@@ -259,10 +261,19 @@ class _AuthScreenState extends State<AuthScreen> {
           setState(() => _error = t('accept_terms_required'));
           return;
         }
-        await api.requestRegisterOtp(email: _emailController.text.trim());
+        final response = await api.requestRegisterOtp(email: _emailController.text.trim());
+        final otpValue = response['otp'] as String?;
         if (!mounted) return;
-        setState(() => _registerOtpSent = true);
-        showTopNotification(context, t('otp_sent_to_email'));
+        setState(() {
+          _registerOtpSent = true;
+          _registerOtpValue = otpValue;
+        });
+        showTopNotification(
+          context,
+          otpValue != null
+              ? "${t('otp_sent_to_email')} OTP: $otpValue"
+              : t('otp_sent_to_email'),
+        );
         return;
       }
 
@@ -555,6 +566,16 @@ class _AuthScreenState extends State<AuthScreen> {
               ],
               decoration: InputDecoration(labelText: t('enter_otp')),
             ),
+            if (_registerOtpValue != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                '${t('debug_otp_notice')} ${_registerOtpValue!}',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 13,
+                ),
+              ),
+            ],
             const SizedBox(height: 12),
           ],
           if (_isRegister && _registerOtpVerified) ...[

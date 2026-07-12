@@ -117,6 +117,15 @@ export async function sendOtpEmail(
   const profile = smtpProfile(channel);
   const transport = getTransport(channel);
   if (!transport) {
+    if (env.OTP_IN_RESPONSE) {
+      console.warn(`SMTP is not configured for channel ${channel}; returning OTP in response for local dev.`);
+      return {
+        messageId: "local",
+        response: "local",
+        accepted: [email.toLowerCase()],
+        rejected: [],
+      };
+    }
     throw new Error("SMTP is not configured on server");
   }
 

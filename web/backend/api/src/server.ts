@@ -209,7 +209,7 @@ function isAllowedCorsOrigin(origin: string): boolean {
   if (allowedCorsOrigins.has(normalized)) return true;
   try {
     const parsed = new URL(normalized);
-    return parsed.hostname.endsWith(".railway.app") || parsed.hostname.endsWith(".pages.dev");
+    return parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1" || parsed.hostname.endsWith(".local");
   } catch {
     return false;
   }
