@@ -8,8 +8,6 @@ set FLUTTER=C:\src\flutter\bin\flutter.bat
 set ADB=adb
 set API_BASE=http://10.0.2.2:4000
 
-call "%REPO%\scripts\start-stack.cmd"
-
 cd /d %REPO%\app\frontend\flutter_app
 
 if not exist "%FLUTTER%" (

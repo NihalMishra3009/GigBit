@@ -4,13 +4,13 @@
   "private": true,
   "description": "GigBit monorepo: Flutter + Node.js (TypeScript) + PostgreSQL + Redis",
   "workspaces": [
-    "web/backend/api"
+    "website/backend/api"
   ],
   "scripts": {
-    "api:install": "npm --workspace web/backend/api install",
-    "api:dev": "npm --workspace web/backend/api run dev",
-    "api:build": "npm --workspace web/backend/api run build",
-    "api:start": "npm --workspace web/backend/api run start"
+    "api:install": "npm --workspace website/backend/api install",
+    "api:dev": "npm --workspace website/backend/api run dev",
+    "api:build": "npm --workspace website/backend/api run build",
+    "api:start": "npm --workspace website/backend/api run start"
   },
   "keywords": [],
   "license": "ISC"

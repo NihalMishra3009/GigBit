@@ -8,6 +8,6 @@ venv/
 .dart_tool/
 build/
 *.log
-web/backend/api/.env
-web/backend/api/dist/
+website/backend/api/.env
+website/backend/api/dist/
 app/frontend/flutter_app/build/

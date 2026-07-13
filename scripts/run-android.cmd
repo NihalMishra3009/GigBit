@@ -16,8 +16,6 @@ if not exist "%FLUTTER%" (
   exit /b 1
 )
 
-call "%REPO%\scripts\start-stack.cmd"
-
 echo Connected devices:
 %ADB% devices
 

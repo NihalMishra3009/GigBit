@@ -76,7 +76,7 @@ flowchart TD
 ## Repository Structure
 
 - `app/` - Flutter mobile app and release artifacts
-- `web/` - static frontend, backend API, and database schema
+- `website/` - web frontend, backend API, and database schema
 - `scripts/` - helper scripts for local dev and release packaging
 - `docs/` - diagrams, screenshots, and supporting documentation
 
@@ -90,10 +90,10 @@ npm install
 
 ### Backend
 
-The backend lives in `web/backend/api`.
+The backend lives in `website/backend/api`.
 
 ```bash
-cd web/backend/api
+cd website/backend/api
 npm install
 npm run build
 npm run start
@@ -101,7 +101,7 @@ npm run start
 
 ### Local Environment Variables
 
-Copy `web/backend/api/.env.example` to `web/backend/api/.env` and set:
+Copy `website/backend/api/.env.example` to `website/backend/api/.env` and set:
 
 - `PORT=4000`
 - `JWT_SECRET=replace-with-strong-secret`
@@ -120,14 +120,14 @@ flutter build apk --release --dart-define=API_BASE_URL=https://YOUR-RAILWAY-URL
 ### Frontend on Cloudflare Pages
 
 1. Connect the GitHub repository to Cloudflare Pages.
-2. Set the root/output to the static frontend under `web/frontend`.
+2. Set the root/output to the static frontend under `website/frontend`.
 3. Deploy the site.
 4. Ensure the frontend is pointed at the Railway API URL.
 
 ### Backend on Railway
 
 1. Create a Railway service from this repository.
-2. Set the root directory to `web/backend/api`.
+2. Set the root directory to `website/backend/api`.
 3. Use:
    - Build command: `npm install && npm run build`
    - Start command: `npm run start`
@@ -143,7 +143,7 @@ flutter build apk --release --dart-define=API_BASE_URL=https://YOUR-RAILWAY-URL
 ### PostgreSQL on Railway
 
 1. Provision Railway PostgreSQL.
-2. Run the schema from `web/database/schema.sql`.
+2. Run the schema from `website/database/schema.sql`.
 3. Point `DATABASE_URL` to the Railway database connection string.
 
 ## Future Improvements
