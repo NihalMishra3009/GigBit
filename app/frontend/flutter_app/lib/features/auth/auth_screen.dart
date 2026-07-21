@@ -176,17 +176,17 @@ class _AuthScreenState extends State<AuthScreen> {
     _passwordController.clear();
   }
 
-    Widget _togglePill({
+  Widget _togglePill({
     required bool value,
     required String label,
     required VoidCallback onTap,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final border = value
-        ? const Color(0xFF16C784)
+        ? Theme.of(context).colorScheme.primary
         : (isDark
             ? Colors.white.withValues(alpha: 0.12)
-            : const Color(0x261E3A8A));
+            : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12));
 
     return InkWell(
       borderRadius: BorderRadius.circular(14),
@@ -199,7 +199,7 @@ class _AuthScreenState extends State<AuthScreen> {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: border, width: value ? 1.6 : 1.0),
             color: value
-                ? const Color(0xFF16C784).withValues(alpha: isDark ? 0.12 : 0.10)
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: isDark ? 0.12 : 0.10)
                 : Colors.transparent,
           ),
           child: Center(
@@ -476,9 +476,7 @@ class _AuthScreenState extends State<AuthScreen> {
         borderRadius: BorderRadius.circular(16),
         color: Theme.of(context).colorScheme.surface,
         border: Border.all(
-          color: isDark
-              ? Colors.white.withValues(alpha: 0.10)
-              : const Color(0x141E3A8A),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: isDark ? 0.10 : 0.08),
         ),
         boxShadow: [
           BoxShadow(
@@ -602,7 +600,6 @@ class _AuthScreenState extends State<AuthScreen> {
               ],
               decoration: InputDecoration(
                 labelText: t('username'),
-                hintText: 'thakur_01',
               ),
             ),
             const SizedBox(height: 12),
@@ -732,60 +729,104 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: isDark
-                ? const [
-                    Color(0xFF0B1020),
-                    Color(0xFF0A1F44),
-                    Color(0xFF0E1A33),
-                  ]
-                : const [
-                    Color(0xFFF8FAFC),
-                    Color(0xFFF2F6FB),
-                    Color(0xFFEAF1FA),
-                  ],
-          ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextButton(
-                          onPressed: widget.onCycleLanguage,
-                          child: Text(AppStrings.label(widget.language)),
-                        ),
-                        IconButton(
-                          onPressed: widget.onToggleTheme,
-                          icon: Icon(
-                            widget.isDarkMode
-                                ? Icons.wb_sunny
-                                : Icons.brightness_2,
-                          ),
-                        ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: isDark
+                    ? const [
+                        Color(0xFFF7F4FF),
+                        Color(0xFFF0E9FF),
+                        Color(0xFFE7DDFE),
+                      ]
+                    : const [
+                        Color(0xFFF8F5FF),
+                        Color(0xFFEFE8FF),
+                        Color(0xFFDCCEFF),
                       ],
-                    ),
-                  ),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 420),
-                    child: _authCard(isDark),
-                  ),
-                ],
               ),
             ),
           ),
+          Positioned(
+            top: -80,
+            left: -70,
+            child: _backgroundOrb(
+              size: 210,
+              color: isDark
+                  ? const Color(0xFF7C3AED).withValues(alpha: 0.10)
+                  : const Color(0xFF7C3AED).withValues(alpha: 0.08),
+            ),
+          ),
+          Positioned(
+            right: -90,
+            bottom: 60,
+            child: _backgroundOrb(
+              size: 240,
+              color: isDark
+                  ? const Color(0xFFA855F7).withValues(alpha: 0.08)
+                  : const Color(0xFFA855F7).withValues(alpha: 0.06),
+            ),
+          ),
+          SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextButton(
+                            onPressed: widget.onCycleLanguage,
+                            child: Text(
+                              AppStrings.label(widget.language),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                color: colors.onSurface,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: widget.onToggleTheme,
+                            icon: Icon(
+                              widget.isDarkMode
+                                  ? Icons.wb_sunny
+                                  : Icons.brightness_2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 440),
+                      child: _authCard(isDark),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _backgroundOrb({required double size, required Color color}) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(
+          colors: [color, color.withValues(alpha: 0.0)],
         ),
       ),
     );

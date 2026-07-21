@@ -7,7 +7,6 @@ import 'notification_history.dart';
 
 OverlayEntry? _activeTopNotice;
 Timer? _activeTopNoticeTimer;
-GlobalKey<_TopNoticeCardState>? _activeTopNoticeKey;
 
 void showTopNotification(
   BuildContext context,
@@ -35,26 +34,20 @@ void showTopNotification(
     );
     // For OS-notification events, do not show in-app top banner.
     _activeTopNoticeTimer?.cancel();
-    _activeTopNoticeKey?.currentState?.hide(immediate: true);
     _activeTopNotice?.remove();
     _activeTopNotice = null;
-    _activeTopNoticeKey = null;
     return;
   }
 
   _activeTopNoticeTimer?.cancel();
-  _activeTopNoticeKey?.currentState?.hide(immediate: true);
   _activeTopNotice?.remove();
   _activeTopNotice = null;
-  _activeTopNoticeKey = null;
 
   final overlay = Overlay.of(context, rootOverlay: true);
 
   final isDark = Theme.of(context).brightness == Brightness.dark;
-  final noticeKey = GlobalKey<_TopNoticeCardState>();
 
-  late OverlayEntry entry;
-  entry = OverlayEntry(
+  final entry = OverlayEntry(
     builder: (ctx) {
       final top = MediaQuery.of(ctx).padding.top + 10;
       final bg = isError
@@ -72,19 +65,11 @@ void showTopNotification(
         right: 12,
         top: top,
         child: _TopNoticeCard(
-          key: noticeKey,
           background: bg,
           border: border,
           textColor: textColor,
           isDark: isDark,
           message: message,
-          onHidden: () {
-            if (_activeTopNotice == entry) {
-              entry.remove();
-              _activeTopNotice = null;
-              _activeTopNoticeKey = null;
-            }
-          },
         ),
       );
     },
@@ -92,10 +77,10 @@ void showTopNotification(
 
   overlay.insert(entry);
   _activeTopNotice = entry;
-  _activeTopNoticeKey = noticeKey;
   _activeTopNoticeTimer = Timer(duration, () {
     if (_activeTopNotice == entry) {
-      noticeKey.currentState?.hide();
+      entry.remove();
+      _activeTopNotice = null;
     }
   });
 }
@@ -147,15 +132,13 @@ void showTopNotification(
   return null;
 }
 
-class _TopNoticeCard extends StatefulWidget {
+class _TopNoticeCard extends StatelessWidget {
   const _TopNoticeCard({
-    super.key,
     required this.background,
     required this.border,
     required this.textColor,
     required this.isDark,
     required this.message,
-    required this.onHidden,
   });
 
   final Color background;
@@ -163,92 +146,31 @@ class _TopNoticeCard extends StatefulWidget {
   final Color textColor;
   final bool isDark;
   final String message;
-  final VoidCallback onHidden;
-
-  @override
-  State<_TopNoticeCard> createState() => _TopNoticeCardState();
-}
-
-class _TopNoticeCardState extends State<_TopNoticeCard>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 320),
-    reverseDuration: const Duration(milliseconds: 260),
-  );
-
-  late final Animation<double> _fade = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeOutCubic,
-    reverseCurve: Curves.easeInCubic,
-  );
-
-  late final Animation<Offset> _slide = Tween<Offset>(
-    begin: const Offset(0, -0.45),
-    end: Offset.zero,
-  ).animate(
-    CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutCubic,
-      reverseCurve: Curves.easeInCubic,
-    ),
-  );
-
-  bool _closing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.forward();
-  }
-
-  Future<void> hide({bool immediate = false}) async {
-    if (_closing) return;
-    _closing = true;
-    if (immediate) {
-      widget.onHidden();
-      return;
-    }
-    await _controller.reverse();
-    if (mounted) widget.onHidden();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _fade,
-      child: SlideTransition(
-        position: _slide,
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            decoration: BoxDecoration(
-              color: widget.background,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: widget.border.withValues(alpha: 0.6)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: widget.isDark ? 0.35 : 0.12),
-                  blurRadius: 14,
-                  offset: const Offset(0, 8),
-                ),
-              ],
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: background,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: border.withValues(alpha: 0.6)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.12),
+              blurRadius: 14,
+              offset: const Offset(0, 8),
             ),
-            child: Text(
-              widget.message,
-              style: TextStyle(
-                color: widget.textColor,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
+          ],
+        ),
+        child: Text(
+          message,
+          style: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
           ),
         ),
       ),

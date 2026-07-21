@@ -39,16 +39,16 @@ class _GigBitAppState extends State<GigBitApp> {
     final isDarkMode = mode == ThemeMode.dark;
     return SystemUiOverlayStyle(
       statusBarColor:
-          isDarkMode ? const Color(0xFF0B1020) : const Color(0xFFF8FAFC),
+          isDarkMode ? const Color(0xFF000000) : const Color(0xFFFFFFFF),
       statusBarIconBrightness:
           isDarkMode ? Brightness.light : Brightness.dark,
       statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
       systemNavigationBarColor:
-          isDarkMode ? const Color(0xFF0B1020) : const Color(0xFFF8FAFC),
+          isDarkMode ? const Color(0xFF000000) : const Color(0xFFFFFFFF),
       systemNavigationBarIconBrightness:
           isDarkMode ? Brightness.light : Brightness.dark,
       systemNavigationBarDividerColor:
-          isDarkMode ? const Color(0xFF0B1020) : const Color(0xFFF8FAFC),
+          isDarkMode ? const Color(0xFF000000) : const Color(0xFFFFFFFF),
     );
   }
 
@@ -179,19 +179,22 @@ class _GigBitAppState extends State<GigBitApp> {
   }
 
   ThemeData _lightTheme() {
-    const primary = Color(0xFF1E3A8A);
-    const accent = Color(0xFF16C784);
-    const background = Color(0xFFF8FAFC);
-    const onPrimaryText = Color(0xFF0F172A);
-    const secondaryText = Color(0xFF475569);
+    const primary = Color(0xFF7C3AED);
+    const background = Color(0xFFF5F3F8);
+    const onPrimaryText = Color(0xFF111111);
+    const secondaryText = Color(0xFF1F1B2D);
+    const surface = Color(0xFFFFFFFF);
+    const surfaceVariant = Color(0xFFF1EDF8);
 
     const scheme = ColorScheme.light(
       primary: primary,
-      secondary: accent,
-      surface: Color(0xFFFFFFFF),
+      secondary: Color(0xFFA855F7),
+      surface: surface,
       onSurface: onPrimaryText,
-      onPrimary: Color(0xFFFFFFFF),
-      onSecondary: Color(0xFF05291E),
+      onBackground: onPrimaryText,
+      onSurfaceVariant: onPrimaryText,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
       error: Color(0xFFEF4444),
     );
 
@@ -209,40 +212,78 @@ class _GigBitAppState extends State<GigBitApp> {
             TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
         titleMedium:
             TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        titleSmall:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
         bodyLarge: TextStyle(fontWeight: FontWeight.w500, color: onPrimaryText),
-        bodyMedium: TextStyle(color: secondaryText),
+        bodyMedium: TextStyle(color: onPrimaryText),
+        bodySmall: TextStyle(color: onPrimaryText),
+        labelLarge: TextStyle(color: onPrimaryText),
+        labelMedium: TextStyle(color: onPrimaryText),
+        labelSmall: TextStyle(color: onPrimaryText),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: surfaceVariant,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0x1F1E3A8A)),
+          borderSide: const BorderSide(color: Color(0x12000000)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0x1F1E3A8A)),
+          borderSide: const BorderSide(color: Color(0x12000000)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: accent, width: 1.5),
+          borderSide: const BorderSide(color: primary, width: 1.5),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: accent,
-          foregroundColor: const Color(0xFF05281F),
+          backgroundColor: primary,
+          foregroundColor: onPrimaryText,
+          disabledBackgroundColor: const Color(0xFFCDB7FF),
+          disabledForegroundColor: onPrimaryText,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           textStyle: const TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: onPrimaryText,
+          textStyle: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: onPrimaryText,
+          side: BorderSide(color: primary.withValues(alpha: 0.28)),
+          textStyle: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          foregroundColor: primary,
+        ),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return primary;
+          return const Color(0xFFB9B1C8);
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return primary.withValues(alpha: 0.28);
+          }
+          return const Color(0xFFE0D7F0);
+        }),
+      ),
       dialogTheme: DialogThemeData(
-        backgroundColor: const Color(0xFFFFFFFF),
+        backgroundColor: surface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Color(0x261E3A8A)),
+          side: const BorderSide(color: Color(0x12000000)),
         ),
         titleTextStyle: const TextStyle(
           color: onPrimaryText,
@@ -256,68 +297,181 @@ class _GigBitAppState extends State<GigBitApp> {
         ),
       ),
       iconTheme: const IconThemeData(color: primary),
+      cardTheme: CardThemeData(
+        color: surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: surface,
+        indicatorColor: primary.withValues(alpha: 0.12),
+        labelTextStyle: WidgetStateProperty.all(
+          const TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        ),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            color: selected ? primary : const Color(0xFF7A7587),
+          );
+        }),
+      ),
     );
   }
 
   ThemeData _darkTheme() {
-    const primary = Color(0xFF0A1F44);
-    const accent = Color(0xFF16C784);
+    const primary = Color(0xFF7C3AED);
+    const background = Color(0xFFF5F3F8);
+    const surface = Color(0xFFFFFFFF);
+    const onPrimaryText = Color(0xFF111111);
+    const secondaryText = Color(0xFF1F1B2D);
 
-    final scheme = ColorScheme.fromSeed(
-      seedColor: primary,
-      primary: const Color(0xFFAEC9FF),
-      secondary: accent,
-      surface: const Color(0xFF111A2E),
-      brightness: Brightness.dark,
+    const scheme = ColorScheme.light(
+      primary: primary,
+      secondary: Color(0xFFA855F7),
+      surface: surface,
+      onSurface: onPrimaryText,
+      onBackground: onPrimaryText,
+      onSurfaceVariant: onPrimaryText,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      error: Color(0xFFEF4444),
     );
 
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       colorScheme: scheme,
-      scaffoldBackgroundColor: const Color(0xFF0B1020),
+      scaffoldBackgroundColor: background,
+      textTheme: const TextTheme(
+        headlineLarge:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w900),
+        headlineMedium:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w800),
+        titleLarge:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        titleMedium:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        titleSmall:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        bodyLarge: TextStyle(fontWeight: FontWeight.w500, color: onPrimaryText),
+        bodyMedium: TextStyle(color: onPrimaryText),
+        bodySmall: TextStyle(color: onPrimaryText),
+        labelLarge: TextStyle(color: onPrimaryText),
+        labelMedium: TextStyle(color: onPrimaryText),
+        labelSmall: TextStyle(color: onPrimaryText),
+      ),
+      primaryTextTheme: const TextTheme(
+        headlineLarge:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w900),
+        headlineMedium:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w800),
+        titleLarge:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        titleMedium:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        titleSmall:
+            TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        bodyLarge: TextStyle(fontWeight: FontWeight.w500, color: onPrimaryText),
+        bodyMedium: TextStyle(color: onPrimaryText),
+        bodySmall: TextStyle(color: onPrimaryText),
+        labelLarge: TextStyle(color: onPrimaryText),
+        labelMedium: TextStyle(color: onPrimaryText),
+        labelSmall: TextStyle(color: onPrimaryText),
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: const Color(0xFF131D33),
+        fillColor: const Color(0xFFF1EDF8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0x33FFFFFF)),
+          borderSide: const BorderSide(color: Color(0x12000000)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0x33FFFFFF)),
+          borderSide: const BorderSide(color: Color(0x12000000)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: accent, width: 1.5),
+          borderSide: const BorderSide(color: primary, width: 1.5),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: accent,
-          foregroundColor: const Color(0xFF032218),
+          backgroundColor: primary,
+          foregroundColor: onPrimaryText,
+          disabledBackgroundColor: const Color(0xFFCDB7FF),
+          disabledForegroundColor: onPrimaryText,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           textStyle: const TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: onPrimaryText,
+          textStyle: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: onPrimaryText,
+          side: BorderSide(color: primary.withValues(alpha: 0.28)),
+          textStyle: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          foregroundColor: primary,
+        ),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return primary;
+          return const Color(0xFFB9B1C8);
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return primary.withValues(alpha: 0.28);
+          }
+          return const Color(0xFFE0D7F0);
+        }),
+      ),
       dialogTheme: DialogThemeData(
-        backgroundColor: const Color(0xFF111A2E),
+        backgroundColor: surface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Color(0x33FFFFFF)),
+          side: const BorderSide(color: Color(0x12000000)),
         ),
         titleTextStyle: const TextStyle(
-          color: Color(0xFFE8EEFF),
+          color: onPrimaryText,
           fontSize: 20,
           fontWeight: FontWeight.w900,
         ),
-        contentTextStyle: TextStyle(
-          color: const Color(0xFFE8EEFF).withValues(alpha: 0.78),
+        contentTextStyle: const TextStyle(
+          color: secondaryText,
           fontSize: 14,
           fontWeight: FontWeight.w600,
         ),
+      ),
+      cardTheme: CardThemeData(
+        color: surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: surface,
+        indicatorColor: primary.withValues(alpha: 0.12),
+        labelTextStyle: WidgetStateProperty.all(
+          const TextStyle(color: onPrimaryText, fontWeight: FontWeight.w700),
+        ),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            color: selected ? primary : const Color(0xFF7A7587),
+          );
+        }),
       ),
     );
   }
@@ -352,8 +506,8 @@ class _GigBitAppState extends State<GigBitApp> {
       theme: _lightTheme(),
       darkTheme: _darkTheme(),
       themeMode: _themeMode,
-      themeAnimationDuration: Duration.zero,
-      themeAnimationCurve: Curves.linear,
+      themeAnimationDuration: const Duration(milliseconds: 400),
+      themeAnimationCurve: Curves.easeInOutCubic,
       home: AnnotatedRegion<SystemUiOverlayStyle>(
         value: statusBarStyle,
         child: home,

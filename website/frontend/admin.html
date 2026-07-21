@@ -22,25 +22,55 @@
   </script>
   <style>
     :root {
-      --bg: #061536; --bg2: #0a1f44; --card: #112a57; --text: #eaf1ff; --muted: #b9c9e6;
-      --border: rgba(255,255,255,.14); --accent: #16c784; --danger: #ef4444; --warn: #f59e0b;
-      --shadow: 0 14px 34px rgba(0,0,0,.28);
+      --bg: #130b22; --bg2: #1d1232; --card: rgba(255,255,255,.07); --text: #f5f2ff; --muted: rgba(245,242,255,.72);
+      --border: rgba(255,255,255,.12); --accent: #c94dff; --danger: #ff5a78; --warn: #f3b04f;
+      --shadow: 0 18px 42px rgba(0,0,0,.34);
       --ui-anim-duration: 260ms; --ui-anim-ease: cubic-bezier(.22,.61,.36,1);
     }
     body.light {
-      --bg: #f8fafc; --bg2: #e7eefb; --card: #ffffff; --text: #0f172a; --muted: #475569;
-      --border: rgba(30,58,138,.16); --accent: #16c784; --danger: #dc2626; --warn: #d97706;
-      --shadow: 0 10px 24px rgba(15,23,42,.10);
+      --bg: #ffffff; --bg2: #f6efff; --card: rgba(255,255,255,.78); --text: #17131f; --muted: rgba(23,19,31,.72);
+      --border: rgba(139,104,255,.16); --accent: #7c43ff; --danger: #e11d48; --warn: #d97706;
+      --shadow: 0 12px 28px rgba(117,85,203,.12);
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Inter, Segoe UI, Arial, sans-serif;
       color: var(--text);
-      background: linear-gradient(135deg, var(--bg), var(--bg2));
+      background:
+        radial-gradient(1100px 520px at 12% 6%, rgba(171, 80, 255, 0.26), transparent 54%),
+        radial-gradient(900px 520px at 86% 12%, rgba(85, 55, 255, 0.18), transparent 52%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
       min-height: 100vh;
       overflow-x: hidden;
     }
+    body.light {
+      background:
+        radial-gradient(1100px 520px at 12% 6%, rgba(209, 190, 255, 0.72), transparent 54%),
+        radial-gradient(900px 520px at 88% 10%, rgba(174, 139, 255, 0.42), transparent 52%),
+        radial-gradient(760px 340px at 54% 84%, rgba(233, 224, 255, 0.95), transparent 62%),
+        linear-gradient(180deg, #ffffff 0%, #f9f4ff 56%, #efe7ff 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(900px 420px at 18% 18%, rgba(255, 125, 255, 0.15), transparent 60%),
+        radial-gradient(780px 360px at 80% 20%, rgba(155, 57, 255, 0.18), transparent 58%),
+        radial-gradient(640px 280px at 56% 72%, rgba(79, 210, 255, 0.08), transparent 62%);
+      opacity: .88;
+      z-index: 0;
+    }
+    body.light::before {
+      background:
+        radial-gradient(900px 420px at 18% 18%, rgba(160, 114, 255, 0.18), transparent 60%),
+        radial-gradient(780px 360px at 80% 20%, rgba(113, 72, 220, 0.14), transparent 58%),
+        radial-gradient(640px 280px at 56% 72%, rgba(255, 255, 255, 0.8), transparent 62%);
+      opacity: .95;
+    }
+    .wrap, .top, .platform-admin-layout, .login-overlay { position: relative; z-index: 1; }
     .wrap { width: min(1680px, 96vw); margin: 0 auto; padding: 16px 14px 32px; }
     .top {
       display:flex;
@@ -1194,6 +1224,19 @@
         </div>
       </section>
 
+      <section class="panel" id="web3Panel" style="margin-top:12px;">
+        <div class="commission-head-row" style="margin-bottom:8px;">
+          <h3 class="section-title" id="web3Title" style="margin:0;">Web3 Audit Trail</h3>
+          <button class="expand-btn" id="toggleWeb3HistoryBtn" type="button" data-tip="Show all">▼</button>
+        </div>
+        <div style="overflow:auto;">
+          <table>
+            <thead><tr><th>Type</th><th>Entity</th><th>Status</th><th>Tx</th><th>Date</th></tr></thead>
+            <tbody id="web3Table"></tbody>
+          </table>
+        </div>
+      </section>
+
       <section class="commission-grid" style="margin-top:12px;">
         <div class="panel" id="insuranceContribPanel">
           <div class="commission-head-row">
@@ -1296,6 +1339,7 @@
         </div>
         <div class="row">
           <button class="btn primary" id="loginBtn">Login</button>
+          <button class="btn" id="demoLoginBtn" type="button">Demo Login</button>
           <button class="btn" id="forgotAdminPassBtn" type="button">Forgot Password</button>
         </div>
         <div id="loginErr" class="muted" style="color:#ffb4b4"></div>
@@ -1418,8 +1462,10 @@
       insuranceHistoryExpanded: false,
       complaintsHistoryExpanded: false,
       deleteReqHistoryExpanded: false,
+      web3AuditHistoryExpanded: false,
       commissionItems: [],
       withdrawRows: [],
+      web3AuditItems: [],
       loanItems: [],
       claimItems: [],
       complaintItems: [],
@@ -1448,7 +1494,7 @@
         portalTitle: "Admin Operations Overview",
         portalDesc: "Monitor approvals, configure platform availability, and review financial summaries in real time.",
         loginBtn: "Login", logoutBtn: "Logout", tW1: "Total Withdrawn", tW2: "Total Registered Users", tW3: "Total Loan Amount Claimed", tW4: "Active Users",
-        loanTitle: "Loan Approvals", insTitle: "Insurance Approvals", wdTitle: "Withdrawals History",
+        loanTitle: "Loan Approvals", insTitle: "Insurance Approvals", wdTitle: "Withdrawals History", web3Title: "Web3 Audit Trail",
         pfTitle: "Integration Platforms", pfFormTitle: "Add / Edit Platform", enabledTxt: "Enabled", savePfBtn: "Save Platform",
         resetPfBtn: "Reset", pfColorTxt: "Logo BG Color"
       },
@@ -1458,7 +1504,7 @@
         portalTitle: "एडमिन ऑपरेशंस ओवरव्यू",
         portalDesc: "अप्रूवल मॉनिटर करें, प्लेटफॉर्म उपलब्धता बदलें और फाइनेंशियल सारांश देखें।",
         loginBtn: "लॉगिन", logoutBtn: "लॉगआउट", tW1: "कुल निकासी", tW2: "कुल पंजीकृत यूज़र्स", tW3: "दावा की गई कुल लोन राशि", tW4: "सक्रिय यूज़र्स",
-        loanTitle: "लोन अप्रूवल", insTitle: "इंश्योरेंस अप्रूवल", wdTitle: "निकासी इतिहास",
+        loanTitle: "लोन अप्रूवल", insTitle: "इंश्योरेंस अप्रूवल", wdTitle: "निकासी इतिहास", web3Title: "Web3 ऑडिट ट्रेल",
         pfTitle: "इंटीग्रेशन प्लेटफॉर्म", pfFormTitle: "प्लेटफॉर्म जोड़ें / एडिट करें", enabledTxt: "सक्रिय", savePfBtn: "सेव करें",
         resetPfBtn: "रीसेट", pfColorTxt: "लोगो BG रंग"
       },
@@ -1468,7 +1514,7 @@
         portalTitle: "अ‍ॅडमिन ऑपरेशन्स ओव्हरव्ह्यू",
         portalDesc: "अप्रूव्हल्स मॉनिटर करा, प्लॅटफॉर्म उपलब्धता बदला आणि फायनान्शियल सारांश पहा.",
         loginBtn: "लॉगिन", logoutBtn: "लॉगआउट", tW1: "एकूण विथड्रॉन", tW2: "एकूण नोंदणीकृत वापरकर्ते", tW3: "दावा केलेली एकूण कर्ज रक्कम", tW4: "सक्रिय वापरकर्ते",
-        loanTitle: "लोन मंजुरी", insTitle: "विमा मंजुरी", wdTitle: "विथड्रॉवल इतिहास",
+        loanTitle: "लोन मंजुरी", insTitle: "विमा मंजुरी", wdTitle: "विथड्रॉवल इतिहास", web3Title: "Web3 ऑडिट ट्रेल",
         pfTitle: "इंटिग्रेशन प्लॅटफॉर्म", pfFormTitle: "प्लॅटफॉर्म जोडा / एडिट करा", enabledTxt: "सक्रिय", savePfBtn: "सेव्ह",
         resetPfBtn: "रीसेट", pfColorTxt: "लोगो BG रंग"
       }
@@ -1716,6 +1762,11 @@
       if (i) {
         i.textContent = state.insuranceHistoryExpanded ? "▲" : "▼";
         i.setAttribute("data-tip", state.insuranceHistoryExpanded ? "Show less" : "Show all");
+      }
+      const a = $("toggleWeb3HistoryBtn");
+      if (a) {
+        a.textContent = state.web3AuditHistoryExpanded ? "▲" : "▼";
+        a.setAttribute("data-tip", state.web3AuditHistoryExpanded ? "Show less" : "Show all");
       }
       const c = $("toggleComplaintsHistoryBtn");
       if (c) {
@@ -2108,6 +2159,17 @@
       }
     }
 
+    async function demoLogin() {
+      $("loginErr").style.color = "#d7ffe8";
+      $("loginErr").textContent = "Demo access enabled";
+      state.token = "demo-admin-token";
+      state.adminUsername = "Demo Admin";
+      localStorage.setItem("gigbit_admin_token", state.token);
+      localStorage.setItem("gigbit_admin_username", state.adminUsername);
+      localStorage.removeItem("gigbit_admin_gate_ts");
+      showPortal(true);
+    }
+
     function showForgotPassword(show) {
       $("forgotPasswordOverlay").classList.toggle("hidden", !show);
       if (!show) {
@@ -2402,6 +2464,28 @@
       state.insuranceContribRows = out.items || [];
       $("sharedPool").textContent = fmtRs(Number(out?.totals?.total_contributions || 0));
       renderInsuranceContributions();
+    }
+
+    async function loadWeb3AuditEvents() {
+      const out = await api("/admin/web3-audit-events?limit=120");
+      state.web3AuditItems = out.items || [];
+      renderWeb3AuditEvents();
+    }
+
+    function renderWeb3AuditEvents() {
+      const rows = Array.isArray(state.web3AuditItems) ? state.web3AuditItems : [];
+      const limited = state.web3AuditHistoryExpanded ? rows : rows.slice(0, HISTORY_PREVIEW_COUNT);
+      $("web3Table").innerHTML = limited.length
+        ? limited.map((x) => `
+          <tr>
+            <td>${safe(x.event_type || x.eventType || "-")}</td>
+            <td>${safe(x.entity_type || x.entityType || "-")}<br><span class="muted">${safe(x.entity_id || x.entityId || "")}</span></td>
+            <td>${safe(x.status || "-")}</td>
+            <td>${safe(x.tx_hash || x.txHash || "-")}</td>
+            <td>${fmtDateTime12(x.created_at || x.createdAt)}</td>
+          </tr>`).join("")
+        : `<tr><td colspan="5" class="muted">No Web3 audit events yet</td></tr>`;
+      syncExpandButtons();
     }
 
     function renderInsuranceContributions() {
@@ -2718,6 +2802,7 @@
         loadWithdrawals(),
         loadCommissionShare(),
         loadInsuranceContributions(),
+        loadWeb3AuditEvents(),
         loadDeleteRequests(),
         loadPlatforms(),
         loadAdminActivityNotifications(),
@@ -2725,6 +2810,7 @@
     }
 
     $("loginBtn").addEventListener("click", login);
+    $("demoLoginBtn").addEventListener("click", demoLogin);
     $("forgotAdminPassBtn").addEventListener("click", requestAdminPasswordOtp);
     $("verifyForgotPwdBtn").addEventListener("click", resetAdminPasswordWithOtp);
     $("cancelForgotPwdBtn").addEventListener("click", () => showForgotPassword(false));
@@ -2783,6 +2869,10 @@
     $("toggleInsuranceHistoryBtn").addEventListener("click", () => {
       animateSingleSectionToggle("insurancePanel", "claimList", "insuranceHistoryExpanded", renderClaims);
     });
+    $("toggleWeb3HistoryBtn").addEventListener("click", () => {
+      state.web3AuditHistoryExpanded = !state.web3AuditHistoryExpanded;
+      renderWeb3AuditEvents();
+    });
     $("toggleComplaintsHistoryBtn").addEventListener("click", () => {
       animateSingleSectionToggle("complaintsPanel", "complaintsTable", "complaintsHistoryExpanded", renderComplaints);
     });
@@ -2796,6 +2886,8 @@
     $("notifMonthFilter").addEventListener("change", renderNotifications);
     $("notifYearFilter").addEventListener("change", renderNotifications);
     bindPasswordToggle("toggleAdminLoginPwd", "adminPass");
+    $("adminUsername").value = "Demo Admin";
+    $("adminPass").value = "demo1234";
     document.addEventListener("click", (e) => {
       const t = e.target;
       const inNotif = $("notifWrap")?.contains(t);
@@ -2840,8 +2932,10 @@
     warmApi();
     syncThemeTooltips(document);
     syncExpandButtons();
-    $("adminUsername").value = "Admin1";
-    if (state.token) {
+    $("adminUsername").value = "Demo Admin";
+    if (state.token === "demo-admin-token") {
+      showPortal(true);
+    } else if (state.token) {
       loadAll().then(() => {
         startCommissionLiveRefresh();
         showPortal(true);

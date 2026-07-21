@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: gigbit-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: gigbit
+      POSTGRES_USER: gigbit
+      POSTGRES_PASSWORD: gigbit
+    ports:
+      - "5433:5432"
+    volumes:
+      - gigbit_pgdata:/var/lib/postgresql/data
+
+volumes:
+  gigbit_pgdata:

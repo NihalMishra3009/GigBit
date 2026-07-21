@@ -4,9 +4,10 @@ GigBit is a gig-worker finance platform with a Flutter mobile app, a static web 
 
 ## Project Structure
 
-- `app/` - Flutter mobile app and release artifacts
-- `website/` - web frontend, backend API, and database schema
-- `docs/` - project documentation
+- `app/frontend/flutter_app/` - Flutter mobile app
+- `app/releases/` - generated APK release artifacts
+- `website/frontend/` - static web portal
+- `website/backend/api/` - shared Node.js API for web and mobile
 - `scripts/` - helper scripts for local development
 
 ## Tech Stack
@@ -27,6 +28,12 @@ npm install
 
 The backend lives in `website/backend/api`.
 
+For local development, start the Docker PostgreSQL service first:
+
+```bash
+docker compose up -d db
+```
+
 ```bash
 cd website/backend/api
 npm install
@@ -40,9 +47,10 @@ Create a local environment file in `website/backend/api/.env` with at least:
 
 - `PORT=4000`
 - `JWT_SECRET=replace-with-a-strong-secret`
-- `DATABASE_URL=postgresql://user:password@host:5432/database`
+- `DATABASE_URL=postgresql://gigbit:gigbit@127.0.0.1:5433/gigbit`
 
 ## Notes
 
 - Keep secrets out of source control.
 - The web and mobile clients share the same backend API.
+- Legacy duplicate schema files were removed; the backend schema now lives in `website/backend/api/sql/schema.sql`.

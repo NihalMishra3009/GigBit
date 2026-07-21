@@ -108,11 +108,15 @@ class NotificationHistoryStore {
   }) {
     final m = message.toLowerCase();
     if (isError) return 'Error';
-    if (m.contains('transaction') || m.contains('expense'))
+    if (m.contains('transaction') || m.contains('expense')) {
       return 'Transaction';
-    if (m.contains('claim') || m.contains('insurance')) return 'Claim';
-    if (m.contains('otp') || m.contains('password') || m.contains('login'))
+    }
+    if (m.contains('claim') || m.contains('insurance')) {
+      return 'Claim';
+    }
+    if (m.contains('otp') || m.contains('password') || m.contains('login')) {
       return 'Auth';
+    }
     if (m.contains('plan') ||
         m.contains('subscription') ||
         m.contains('payment')) {
@@ -130,8 +134,9 @@ class NotificationHistoryStore {
         m.contains('benefit')) {
       return 'Settings';
     }
-    if (m.contains('ticket') || m.contains('support') || m.contains('faq'))
+    if (m.contains('ticket') || m.contains('support') || m.contains('faq')) {
       return 'Support';
+    }
     return 'General';
   }
 }

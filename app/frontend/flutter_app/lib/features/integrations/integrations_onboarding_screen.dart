@@ -71,36 +71,36 @@ class _IntegrationsOnboardingScreenState
   };
 
   static const Map<String, Color> _defaultPlatformBrands = {
-    'zomato': Color(0xFFE53935),
-    'blinkit': Color(0xFFF5C518),
-    'rapido': Color(0xFFFFC107),
-    'ola': Color(0xFF8BC34A),
+    'zomato': Color(0xFF000000),
+    'blinkit': Color(0xFF555555),
+    'rapido': Color(0xFF888888),
+    'ola': Color(0xFFCCCCCC),
   };
 
   final _platforms = [
     _PlatformState(
       name: 'zomato',
       assetPath: 'assets/platforms/zomato.png',
-      logoBackground: const Color(0xFFE53935),
-      brand: const Color(0xFFE53935),
+      logoBackground: const Color(0xFF000000),
+      brand: const Color(0xFF000000),
     ),
     _PlatformState(
       name: 'blinkit',
       assetPath: 'assets/platforms/blinkit.png',
-      logoBackground: const Color(0xFFF5C518),
-      brand: const Color(0xFFF5C518),
+      logoBackground: const Color(0xFF555555),
+      brand: const Color(0xFF555555),
     ),
     _PlatformState(
       name: 'rapido',
       assetPath: 'assets/platforms/rapido.png',
       logoBackground: Colors.white,
-      brand: const Color(0xFFFFC107),
+      brand: const Color(0xFF888888),
     ),
     _PlatformState(
       name: 'ola',
       assetPath: 'assets/platforms/ola.png',
       logoBackground: Colors.white,
-      brand: const Color(0xFF8BC34A),
+      brand: const Color(0xFFCCCCCC),
     ),
   ];
 
@@ -396,10 +396,11 @@ class _IntegrationsOnboardingScreenState
             Widget planCard(String plan) {
               final picked = selected == plan;
               final border = picked
-                  ? const Color(0xFF16C784)
-                  : (isDark
-                      ? Colors.white.withValues(alpha: 0.12)
-                      : const Color(0x261E3A8A));
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.12);
               return Expanded(
                 child: Material(
                   color: Theme.of(context).colorScheme.surface,
@@ -463,10 +464,11 @@ class _IntegrationsOnboardingScreenState
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(
                       color: picked
-                          ? const Color(0xFF16C784)
-                          : (isDark
-                              ? Colors.white.withValues(alpha: 0.12)
-                              : const Color(0x261E3A8A)),
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withValues(alpha: 0.12),
                       width: picked ? 1.5 : 1,
                     ),
                     shape: RoundedRectangleBorder(
@@ -1006,10 +1008,8 @@ class _IntegrationsOnboardingScreenState
 
     final side = BorderSide(
       color: platform.verified
-          ? const Color(0xFF16C784)
-          : (isDark
-              ? Colors.white.withValues(alpha: 0.12)
-              : const Color(0x261E3A8A)),
+          ? Theme.of(context).colorScheme.primary
+          : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12),
       width: platform.verified ? 1.4 : 1,
     );
 
@@ -1052,7 +1052,7 @@ class _IntegrationsOnboardingScreenState
                 platform.verified ? t('connected') : t('connect'),
                 style: TextStyle(
                   color: platform.verified
-                      ? const Color(0xFF16C784)
+                      ? Theme.of(context).colorScheme.primary
                       : Theme.of(context)
                           .colorScheme
                           .onSurface

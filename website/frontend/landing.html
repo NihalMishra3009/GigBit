@@ -6,84 +6,451 @@
   <title>GigBit - Financial Platform For Gig Workers</title>
   <style>
     :root {
-      --bg: #06163a;
-      --bg2: #0b1f4f;
-      --bg3: #102a63;
-      --card: rgba(20, 43, 95, 0.82);
-      --text: #eef3ff;
-      --muted: #b9c8e7;
-      --accent: #16c784;
-      --accent2: #00c896;
-      --line: rgba(255, 255, 255, 0.15);
-      --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-    }
-    body.light {
-      --bg: #f8fafc;
-      --bg2: #eef4ff;
-      --bg3: #dde9ff;
-      --card: rgba(255, 255, 255, 0.94);
-      --text: #0f172a;
-      --muted: #475569;
-      --line: rgba(30, 58, 138, 0.14);
-      --shadow: 0 16px 30px rgba(15, 23, 42, 0.11);
+      --bg: #2d2623;
+      --bg-soft: #171310;
+      --surface: rgba(255, 255, 255, 0.07);
+      --surface-2: rgba(255, 255, 255, 0.04);
+      --text: #f5f2ec;
+      --muted: rgba(245, 242, 236, 0.72);
+      --line: rgba(255, 255, 255, 0.1);
+      --dark: #0d0b0a;
+      --dark-2: #15110f;
+      --accent: #cfff40;
+      --shadow: 0 26px 64px rgba(0, 0, 0, 0.38);
+      --shadow-soft: 0 16px 34px rgba(0, 0, 0, 0.2);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-anchor: none; }
+    html, body { width: 100%; min-height: 100%; }
     body {
       margin: 0;
       min-height: 100vh;
       font-family: Inter, Segoe UI, Arial, sans-serif;
       color: var(--text);
-      overflow-x: hidden;
+      background-color: #170c2c;
       background:
-        radial-gradient(1200px 520px at 8% -10%, #1a4aa3 0%, transparent 55%),
-        radial-gradient(900px 460px at 95% 0%, #0f377f 0%, transparent 58%),
-        linear-gradient(135deg, var(--bg), var(--bg2) 45%, var(--bg3));
+        radial-gradient(1100px 520px at 12% 6%, rgba(171, 80, 255, 0.38), transparent 54%),
+        radial-gradient(900px 520px at 86% 12%, rgba(85, 55, 255, 0.28), transparent 52%),
+        radial-gradient(700px 320px at 52% 82%, rgba(46, 22, 92, 0.72), transparent 60%),
+        linear-gradient(180deg, #2a1448 0%, #170c2c 52%, #09070f 100%);
+      overflow-x: hidden;
     }
-    .wrap { max-width: 1620px; margin: 0 auto; padding: 24px 24px 40px; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(900px 420px at 18% 18%, rgba(255, 125, 255, 0.18), transparent 60%),
+        radial-gradient(780px 360px at 80% 20%, rgba(155, 57, 255, 0.2), transparent 58%),
+        radial-gradient(640px 280px at 56% 72%, rgba(79, 210, 255, 0.1), transparent 62%);
+      opacity: .82;
+      z-index: 0;
+    }
+    body.light {
+      color: #17131f;
+      background-color: #faf8ff;
+      background:
+        radial-gradient(1100px 520px at 12% 6%, rgba(209, 190, 255, 0.72), transparent 54%),
+        radial-gradient(900px 520px at 88% 10%, rgba(174, 139, 255, 0.42), transparent 52%),
+        radial-gradient(760px 340px at 54% 84%, rgba(233, 224, 255, 0.95), transparent 62%),
+        linear-gradient(180deg, #ffffff 0%, #f9f4ff 56%, #efe7ff 100%);
+    }
+    body.light::before {
+      background:
+        radial-gradient(900px 420px at 18% 18%, rgba(160, 114, 255, 0.18), transparent 60%),
+        radial-gradient(780px 360px at 80% 20%, rgba(113, 72, 220, 0.14), transparent 58%),
+        radial-gradient(640px 280px at 56% 72%, rgba(255, 255, 255, 0.8), transparent 62%);
+      opacity: .95;
+    }
+    body.light .side-rail,
+    body.light .dash-panel,
+    body.light .dash-card,
+    body.light .dash-table,
+    body.light .floating-card,
+    body.light .panel,
+    body.light .feature,
+    body.light .faq-item,
+    body.light .info-modal,
+    body.light .detail-card,
+    body.light .search-box,
+    body.light .mini-chip,
+    body.light .profile-chip {
+      background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.52));
+      border-color: rgba(139, 104, 255, 0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 16px 34px rgba(117, 85, 203, 0.12);
+      color: #1c1730;
+    }
+    body.light .nav {
+      background: rgba(255,255,255,.72);
+      border-bottom: 1px solid rgba(122, 86, 214, 0.12);
+      box-shadow: 0 10px 26px rgba(98, 72, 176, 0.08);
+    }
+    body.light .rail-item,
+    body.light .eyebrow,
+    body.light .mini-note,
+    body.light .sub,
+    body.light .section-desc,
+    body.light .feature p,
+    body.light .faq-item span,
+    body.light .footer {
+      color: rgba(27, 20, 49, 0.72);
+    }
+    body.light .headline,
+    body.light .section-heading,
+    body.light .rail-title,
+    body.light .brand,
+    body.light .feature h3,
+    body.light .txn,
+    body.light .detail-card b,
+    body.light .profile-chip {
+      color: #17131f;
+    }
+    body.light .hero {
+      background:
+        radial-gradient(900px 420px at 74% 14%, rgba(255,255,255,.8), transparent 40%),
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(246, 239, 255, .96));
+      border-color: rgba(139, 104, 255, 0.14);
+    }
+    body.light .hero::before {
+      background: radial-gradient(700px 240px at 75% 10%, rgba(155,57,255,.18), transparent 45%), radial-gradient(500px 220px at 20% 18%, rgba(79,210,255,.08), transparent 50%);
+    }
+    body.light .card-b {
+      background: rgba(19, 17, 29, .86);
+      color: #fff;
+    }
+    body.light .card-d {
+      background: linear-gradient(180deg, rgba(194, 163, 255, .9), rgba(255,255,255,.86));
+      box-shadow: 0 18px 34px rgba(149, 108, 255, .18);
+    }
+    body.light .mini-chart {
+      background: linear-gradient(180deg, rgba(255,255,255,.84), rgba(244,239,255,.72));
+      border-color: rgba(139, 104, 255, 0.12);
+      color: #17131f;
+    }
+    body.light .mini-chart.dark {
+      background: linear-gradient(180deg, rgba(34, 24, 56, .96), rgba(19, 14, 31, .98));
+      color: #fff;
+    }
+    body.light .grid-cards {
+      background: linear-gradient(180deg, rgba(255,255,255,.76), rgba(247,241,255,.62));
+      border-color: rgba(139, 104, 255, 0.12);
+    }
+    body.light .pill-btn,
+    body.light .btn.primary {
+      color: #fff;
+    }
+    body.light .pill-btn {
+      background: linear-gradient(135deg, #6f35ff, #b56cff);
+    }
+    body.light .btn, body.light .action-icon-btn {
+      background: rgba(255,255,255,.76);
+      border-color: rgba(139, 104, 255, 0.16);
+      color: #1c1730;
+    }
+    body.light .rail-item.active,
+    body.light .premium-box,
+    body.light .btn.primary {
+      background: linear-gradient(135deg, #7c43ff, #d95cff);
+      color: #fff;
+    }
+    body.light .footer a { border-bottom-color: rgba(139, 104, 255, 0.24); }
+    body.light #langBtn::after {
+      background: rgba(22, 16, 36, .9);
+      color: #fff;
+    }
+    .shell, .nav, .info-overlay { position: relative; z-index: 1; }
+    a { color: inherit; }
+    .wrap { width: 100%; max-width: none; margin: 0; padding: 0 clamp(16px, 2.4vw, 28px); }
+    .shell { position: relative; padding: 0 0 42px; }
+    .workspace {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      margin-top: 12px;
+    }
+    .side-rail, .dash-panel, .dash-card, .dash-table {
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.1), var(--shadow-soft);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+    .side-rail {
+      padding: 22px 18px;
+      position: sticky;
+      top: 94px;
+      height: fit-content;
+      background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.04));
+    }
+    .rail-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      margin: 0 0 18px;
+    }
+    .rail-nav {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .rail-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      color: var(--muted);
+      font-weight: 700;
+      background: rgba(255,255,255,.04);
+    }
+    .rail-item.active {
+      background: linear-gradient(135deg, #9b39ff, #4fd2ff);
+      color: #fff;
+    }
+    .premium-box {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(155,57,255,.82), rgba(79,210,255,.26));
+      color: #fff;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .premium-box .kicker { color: rgba(255,255,255,.78); margin-bottom: 0; }
+    .premium-box .btn { width: fit-content; }
+    .dash-panel {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(24, 22, 27, .68), rgba(12, 11, 14, .86));
+    }
+    .dash-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .search-box, .mini-chip, .profile-chip {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .profile-chip { gap: 10px; color: var(--text); }
+    .profile-chip .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #111, #d8ff3f);
+    }
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .hero-stack {
+      display: grid;
+      gap: 18px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.06fr .94fr;
+      gap: 30px;
+      align-items: center;
+      padding: 34px;
+      margin-top: 0;
+      background:
+        radial-gradient(900px 420px at 72% 12%, rgba(255, 255, 255, 0.05), transparent 42%),
+        linear-gradient(180deg, rgba(21, 20, 24, 0.9), rgba(10, 10, 12, 0.98));
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(700px 240px at 75% 10%, rgba(155,57,255,.2), transparent 45%), radial-gradient(500px 220px at 20% 18%, rgba(79,210,255,.1), transparent 50%);
+      pointer-events: none;
+    }
+    .hero-copy {
+      display: grid;
+      gap: 14px;
+    }
+    .hero-card {
+      background: rgba(255,255,255,.05);
+      border-radius: 24px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.09);
+      box-shadow: var(--shadow-soft);
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,.045);
+      border-radius: 20px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow-soft);
+    }
+    .transactions {
+      display: grid;
+      gap: 12px;
+    }
+    .txn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      font-size: 14px;
+    }
+    .txn:last-child { border-bottom: 0; }
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .chart-card {
+      background: rgba(255,255,255,.045);
+      border-radius: 24px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow-soft);
+    }
+    .chart-bars {
+      display: flex;
+      align-items: end;
+      gap: 12px;
+      height: 180px;
+      margin-top: 20px;
+    }
+    .chart-bars span {
+      flex: 1;
+      border-radius: 16px 16px 6px 6px;
+      background: linear-gradient(180deg, #9b39ff, #4fd2ff);
+    }
+    .chart-bars span:nth-child(2n) { background: linear-gradient(180deg, #ffcc9a, #9b39ff); }
+    .card-split {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .dashboard-spacer { height: 18px; }
+    .glow-hover {
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, filter .25s ease;
+    }
+    .glow-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 18px 50px rgba(0,0,0,.34), 0 0 42px rgba(155,57,255,.18);
+      border-color: rgba(155,57,255,.28);
+      filter: saturate(1.06);
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px) scale(.985);
+      transition: opacity .7s ease, transform .7s cubic-bezier(.22,.61,.36,1);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    @keyframes softPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(155,57,255,.18); }
+      50% { box-shadow: 0 0 0 16px rgba(155,57,255,0); }
+    }
+    .pulse {
+      animation: softPulse 3.8s ease-in-out infinite;
+    }
     .nav {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 16px;
-      padding-bottom: 22px;
-      border-bottom: 1px solid var(--line);
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      padding: 12px clamp(20px, 4vw, 64px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(31, 27, 24, 0.56);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 12px 36px rgba(0,0,0,.2);
     }
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-size: 30px;
+      gap: 10px;
+      font-size: 24px;
       font-weight: 900;
-      letter-spacing: .3px;
+      letter-spacing: -0.04em;
       white-space: nowrap;
     }
-    .brand img {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
+    .brand img { width: 34px; height: 34px; border-radius: 10px; box-shadow: var(--shadow-soft); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      flex-wrap: wrap;
+      justify-content: center;
     }
-    .right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .action-icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.08);
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
+    .right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn, .action-icon-btn {
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.06);
       color: var(--text);
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 10px 16px;
       display: inline-flex;
       align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      transition: transform .18s ease, box-shadow .18s ease;
+      box-shadow: var(--shadow-soft);
+    }
+    .btn:hover, .action-icon-btn:hover { transform: translateY(-1px); }
+    .btn.primary {
+      background: linear-gradient(135deg, #e5ff57, var(--accent));
+      border-color: transparent;
+      color: #111;
+    }
+    .action-icon-btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
       justify-content: center;
-      cursor: pointer;
       font-size: 0;
-      line-height: 1;
       position: relative;
+      cursor: pointer;
     }
-    .action-icon-btn svg {
-      width: 18px;
-      height: 18px;
-      pointer-events: none;
-    }
+    .action-icon-btn svg { width: 18px; height: 18px; }
     #langBtn::after {
       content: attr(data-lang);
       position: absolute;
@@ -92,142 +459,396 @@
       min-width: 16px;
       height: 16px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.25);
-      background: rgba(14, 26, 56, .94);
+      background: rgba(10, 10, 14, .92);
       color: #fff;
+      border: 1px solid rgba(255,255,255,.35);
       font-size: 9px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 0 3px;
-      letter-spacing: .02em;
     }
-    body.light #langBtn::after {
-      background: #0f172a;
-      color: #fff;
-      border-color: rgba(15,23,42,.25);
-    }
-    .btn {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.07);
-      color: var(--text);
-      text-decoration: none;
-      border-radius: 12px;
-      padding: 10px 16px;
+    .hero { margin-top: 0; }
+    .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      font-weight: 800;
-      transition: transform .2s ease, filter .2s ease;
-    }
-    .btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
-    .btn.primary {
-      border: 0;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #05261c;
-      box-shadow: 0 14px 26px rgba(22, 199, 132, .3);
-    }
-    .glass-card {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-    }
-    .section-block { margin-top: 30px; }
-    .section-kicker {
-      margin: 0 0 8px;
-      color: var(--muted);
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.09);
+      color: rgba(255,255,255,.82);
       font-size: 13px;
       font-weight: 800;
+      margin-bottom: 18px;
+    }
+    .headline {
+      margin: 0;
+      font-size: clamp(42px, 5.2vw, 72px);
+      line-height: .94;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      max-width: 10ch;
+      color: #ffffff;
+      text-shadow: none;
+    }
+    .sub {
+      margin: 18px 0 28px;
+      max-width: 34ch;
+      color: rgba(245, 242, 236, 0.84);
+      font-size: 18px;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+    .actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .mini-note {
+      font-size: 13px;
+      color: rgba(245, 242, 236, 0.82);
+      font-weight: 700;
+      border-left: 2px solid rgba(255,255,255,.16);
+      padding-left: 14px;
+      line-height: 1.5;
+    }
+    .mockups {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+    }
+    .floating-card {
+      position: absolute;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 18px 44px rgba(0,0,0,.28);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      overflow: hidden;
+    }
+    .card-a { width: min(330px, 80vw); height: 200px; right: 40px; top: 18px; transform: rotate(-6deg); }
+    .card-b { width: min(300px, 78vw); height: 150px; left: 12px; top: 132px; background: rgba(10, 10, 12, .78); color: #fff; transform: rotate(4deg); }
+    .card-c { width: min(360px, 86vw); height: 178px; right: 0; bottom: 10px; transform: rotate(-1deg); }
+    .card-d {
+      width: 120px;
+      height: 120px;
+      left: 42px;
+      top: 248px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(164, 255, 233, .88), rgba(255,255,255,.82));
+      display: grid;
+      place-items: center;
+      box-shadow: 0 18px 34px rgba(164,255,233,.18);
+    }
+    .mini-chart {
+      position: absolute;
+      inset: 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.05));
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .mini-chart.dark {
+      background: linear-gradient(180deg, rgba(16, 18, 24, .96), rgba(8, 9, 12, .98));
+      color: #fff;
+      border-color: rgba(255,255,255,.08);
+    }
+    .mini-chart .label { font-size: 12px; color: inherit; opacity: .72; font-weight: 800; letter-spacing: .02em; }
+    .mini-chart .value { font-size: 32px; font-weight: 900; letter-spacing: -.04em; }
+    .spark {
+      height: 64px;
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(155,57,255,.12), rgba(155,57,255,0)),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 26px);
+      position: relative;
+      overflow: hidden;
+    }
+    .spark::after {
+      content: "";
+      position: absolute;
+      inset: 10px 0 0 0;
+      background: linear-gradient(90deg, transparent 8%, rgba(255,255,255,.7) 10%, rgba(255,255,255,.7) 20%, transparent 24%, transparent 34%, #9b39ff 37%, #9b39ff 48%, transparent 52%, transparent 68%, rgba(255,255,255,.7) 70%, rgba(255,255,255,.7) 84%, transparent 88%);
+      opacity: .68;
+      clip-path: polygon(0 64%, 10% 32%, 20% 44%, 31% 20%, 42% 48%, 56% 26%, 70% 54%, 83% 30%, 100% 44%, 100% 100%, 0 100%);
+    }
+    .donut-row { display: flex; gap: 14px; align-items: center; }
+    .donut {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.9) 34%, transparent 35%),
+        conic-gradient(#0f0f12 0 24%, #9b39ff 24% 52%, #4fd2ff 52% 68%, #c7c7c7 68% 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    .bars { display: flex; align-items: end; gap: 8px; height: 82px; width: 100%; padding-left: 6px; }
+    .bars span { flex: 1; border-radius: 999px 999px 0 0; background: linear-gradient(180deg, #ff8a5b, #ffcf9a); }
+    .bars span { flex: 1; border-radius: 999px 999px 0 0; background: linear-gradient(180deg, #9b39ff, #ff8c61); }
+    .bars span:nth-child(1) { height: 48%; }
+    .bars span:nth-child(2) { height: 74%; }
+    .bars span:nth-child(3) { height: 58%; }
+    .bars span:nth-child(4) { height: 86%; }
+    .bars span:nth-child(5) { height: 40%; }
+    .badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: #d8ff3f;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #111;
+      box-shadow: 0 10px 22px rgba(216,255,63,.25);
+    }
+    .section { padding: 54px 0 8px; }
+    .kicker {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
       letter-spacing: .08em;
       text-transform: uppercase;
     }
     .section-heading {
-      margin: 0 0 12px;
-      font-size: clamp(24px, 3.7vw, 36px);
-      font-weight: 900;
+      margin: 0;
+      font-size: clamp(28px, 3.5vw, 46px);
       line-height: 1.02;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      max-width: 15ch;
     }
     .section-desc {
-      margin: 0;
+      margin: 14px 0 0;
       color: var(--muted);
       font-size: 16px;
-      line-height: 1.65;
+      line-height: 1.7;
       font-weight: 600;
-      max-width: 66ch;
+      max-width: 62ch;
     }
-    #aboutD { max-width: none; }
-    .hero {
+    .feature-layout {
       display: grid;
-      grid-template-columns: 1.12fr .88fr;
-      gap: 34px;
-      padding: 16px 0 22px;
+      grid-template-columns: 1fr 1.12fr;
+      gap: 30px;
       align-items: start;
+      padding: 34px 0 40px;
+      margin-top: 14px;
     }
-    .headline {
-      margin: 0;
-      font-size: clamp(40px, 6vw, 62px);
-      line-height: .94;
-      font-weight: 900;
-      letter-spacing: -.5px;
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 30px;
+      padding: 26px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
     }
-    .sub {
-      margin: 18px 0 24px;
-      color: var(--muted);
-      font-size: 19px;
-      line-height: 1.5;
-      font-weight: 600;
-      max-width: 34ch;
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -8% -32% auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(216,255,63,.28), rgba(216,255,63,0) 70%);
+      pointer-events: none;
     }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
-    .stats {
+    .meter {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      gap: 18px;
+      margin: 24px 0 18px;
     }
-    .stat { padding: 12px 14px; min-height: 74px; }
-    .stat .k { color: var(--muted); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
-    .stat .v { margin-top: 4px; font-size: 28px; font-weight: 900; }
-    .details-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .detail-card {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px;
-      background: rgba(255,255,255,.06);
+    .meter-row .top {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .meter-row .bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      overflow: hidden;
+    }
+    .meter-row .bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #9b39ff, #4fd2ff);
+    }
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       gap: 10px;
+      border: 0;
+      border-radius: 18px;
+      background: rgba(10, 10, 14, .9);
+      color: #fff;
+      padding: 14px 18px;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      width: fit-content;
+    }
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      padding: 24px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .feature {
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow-soft);
+      min-height: 176px;
+    }
+    .feature .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, rgba(155,57,255,.42), rgba(79,210,255,.16));
+      font-size: 20px;
+    }
+    .feature h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+    .faq { padding: 26px 0 40px; }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 24px;
+      align-items: end;
+    }
+    .faq-list { display: grid; gap: 12px; margin-top: 20px; }
+    .faq-item {
+      border-radius: 20px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-soft);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .faq-item span { color: var(--muted); font-weight: 700; }
+    .faq-art {
+      display: grid;
+      place-items: center;
+      min-height: 280px;
+      position: relative;
+    }
+    .faq-art .floating-card { position: absolute; }
+    .faq-art .card-e { width: min(310px, 78vw); height: 180px; left: 0; bottom: 16px; }
+    .faq-art .card-f { width: min(250px, 70vw); height: 146px; right: 4px; top: 0; }
+    .footer {
+      margin: 18px 0 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 20px 0 0;
+      border-top: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+    .footer .right { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+    .footer a { text-decoration: none; border-bottom: 1px dotted var(--line); }
+    .popup-trigger { cursor: pointer; }
+    .expand-panel { display: none; }
+    .info-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.56);
+      backdrop-filter: blur(6px);
+      z-index: 60;
+      padding: 18px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 240ms ease, visibility 0s linear 240ms;
+    }
+    .info-overlay.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition: opacity 240ms ease, visibility 0s linear 0s;
+    }
+    .info-modal {
+      width: min(560px, 100%);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(26, 24, 28, .96), rgba(15, 14, 18, .98));
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      position: relative;
+    }
+    .info-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .detail-card {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
     }
     .detail-card img {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
       object-fit: contain;
-      border: 0;
-      background: none;
-      padding: 0;
+      background: rgba(255,255,255,.12);
     }
-    .detail-card img.ola-light-bg {
-      background: #fff !important;
-      padding: 2px;
-    }
-    .detail-card b {
-      display: block;
-      font-size: 13px;
-      font-weight: 900;
-    }
-    .detail-card span {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .expand-panel { display: none; }
-    .popup-trigger { cursor: pointer; }
+    .detail-card img.ola-light-bg { background: rgba(255,255,255,.12) !important; padding: 2px; }
+    .detail-card b { display: block; font-size: 13px; font-weight: 900; }
+    .detail-card span { color: var(--muted); font-size: 12px; font-weight: 700; }
     .popup-hint {
       margin-top: 8px;
       font-size: 12px;
@@ -236,351 +857,291 @@
       text-transform: uppercase;
       letter-spacing: .05em;
     }
-    .info-overlay {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(3, 10, 28, 0.62);
-      backdrop-filter: blur(5px);
-      z-index: 60;
-      padding: 18px;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity 260ms cubic-bezier(.22,.61,.36,1), visibility 0s linear 260ms;
-    }
-    .info-overlay.show {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transition: opacity 260ms cubic-bezier(.22,.61,.36,1), visibility 0s linear 0s;
-    }
-    .info-modal {
-      width: min(520px, 100%);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--card);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      position: relative;
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      transition: opacity 260ms cubic-bezier(.22,.61,.36,1), transform 260ms cubic-bezier(.22,.61,.36,1);
-    }
-    .info-overlay:not(.show) .info-modal {
-      opacity: 0;
-      transform: translateY(10px) scale(.98);
-    }
-    .info-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      color: var(--text);
-      background: rgba(255,255,255,.08);
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-    }
-    .info-modal h3 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      font-weight: 900;
-    }
-    .hero-right { border-left: 1px solid var(--line); padding-left: 26px; }
-    .list-title { font-size: 20px; font-weight: 900; margin: 0 0 10px; }
-    .line-item { padding: 14px; margin-bottom: 12px; }
-    .line-item b { display: block; font-size: 17px; margin-bottom: 6px; }
-    .line-item span { color: var(--muted); font-size: 14px; line-height: 1.45; font-weight: 600; }
-    .full-cta { margin-top: 14px; width: 100%; justify-content: center; }
-    .band {
-      margin-top: 24px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 12px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 24px;
-      align-items: center;
-      font-weight: 700;
-      color: var(--muted);
-      background: rgba(255,255,255,.06);
-      backdrop-filter: blur(10px);
-    }
-    .band span {
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255,255,255,.05);
-    }
-    .features {
-      margin-top: 22px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-    .feature { padding: 16px; }
-    .feature h3 { margin: 0 0 8px; font-size: 20px; font-weight: 900; }
-    .feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; font-weight: 600; }
-    .timeline {
-      margin-top: 36px;
-      border-top: 1px solid var(--line);
-      padding-top: 20px;
-    }
-    .timeline h2 { margin: 0 0 14px; font-size: 30px; font-weight: 900; }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-    }
-    .step { padding: 12px 14px; min-height: 142px; }
-    .step .n {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 800;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-    }
-    .step h4 { margin: 8px 0 8px; font-size: 19px; font-weight: 900; }
-    .step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; font-weight: 600; }
-    .footer {
-      margin-top: 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-      background: linear-gradient(135deg, rgba(0,0,0,.28), rgba(22,199,132,.12));
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 18px 16px 12px;
-      backdrop-filter: blur(10px);
-    }
-    .footer .left {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.6;
-    }
-    .footer .right {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 600;
-      align-items: flex-end;
-    }
-    .footer a {
-      color: var(--text);
-      text-decoration: none;
-      border-bottom: 1px dotted var(--line);
-    }
-    @media (max-width: 1080px) {
-      .hero { grid-template-columns: 1fr; gap: 20px; }
-      .hero-right { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; padding-top: 14px; }
-      .stats, .features, .steps { grid-template-columns: 1fr; }
-      .brand { font-size: 26px; }
-      .brand img { width: 42px; height: 42px; }
-      .sub { font-size: 16px; }
+    @media (max-width: 1040px) {
+      .nav { position: static; flex-wrap: wrap; }
+      .nav-links { order: 3; width: 100%; justify-content: flex-start; gap: 16px; }
+      .workspace, .main-grid, .card-split, .charts-grid, .dash-top { grid-template-columns: 1fr; }
+      .workspace { grid-template-columns: 1fr; }
+      .side-rail { position: static; }
+      .hero, .feature-layout, .faq-grid { grid-template-columns: 1fr; }
+      .mockups { min-height: 520px; margin-right: 0; }
+      .grid-cards, .detail-grid { grid-template-columns: 1fr; }
+      .faq-art { min-height: 340px; }
       .footer .right { align-items: flex-start; }
     }
-    @media (max-width: 760px) {
-      .wrap { padding: 14px 12px 24px; }
-      .nav { align-items: center; flex-direction: row; justify-content: space-between; gap: 6px; }
-      .right { width: auto; justify-content: flex-end; gap: 6px; flex-wrap: nowrap; }
-      .headline { font-size: clamp(30px, 11vw, 44px); line-height: 1.02; }
-      .sub { max-width: none; margin-top: 12px; }
-      .actions .btn { width: 100%; justify-content: center; }
-      .details-grid { grid-template-columns: 1fr; }
-      .band { gap: 8px; }
-      .band span { width: 100%; text-align: center; }
-      .timeline h2 { font-size: 24px; }
-      .step { min-height: 0; }
-    }
-    @media (max-width: 460px) {
-      .brand { font-size: 18px; gap: 6px; }
-      .brand img { width: 26px; height: 26px; border-radius: 8px; }
-      .action-icon-btn { width: 30px; height: 30px; border-radius: 8px; }
-      .right .btn {
-        padding: 7px 10px;
-        font-size: 12px;
-        border-radius: 9px;
-        white-space: nowrap;
+    @media (max-width: 720px) {
+      .wrap { padding: 0 12px; }
+      .nav {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding-left: 12px;
+        padding-right: 12px;
       }
-      .section-heading { line-height: 1.1; }
-      .section-desc { font-size: 14px; }
-      .feature h3 { font-size: 18px; }
+      .shell { padding-top: 0; }
+      .hero, .dash-panel, .side-rail { border-radius: 24px; }
+      .hero { padding: 24px; }
+      .headline { max-width: none; font-size: clamp(34px, 11vw, 52px); }
+      .sub { font-size: 16px; }
+      .nav-links { gap: 12px; font-size: 13px; }
+      .btn { padding: 9px 14px; }
+      .mockups { min-height: 440px; }
+      .card-a { right: 0; top: 42px; }
+      .card-b { left: 0; top: 132px; }
+      .card-c { right: 0; bottom: 6px; }
+      .card-d { left: 4px; top: 230px; }
     }
-    @media (max-width: 380px) {
-      .brand { font-size: 16px; }
-      .brand img { width: 24px; height: 24px; }
-      .action-icon-btn { width: 28px; height: 28px; }
-      .right { gap: 4px; }
-      .right .btn {
-        padding: 6px 8px;
-        font-size: 11px;
-      }
+    @media (max-width: 520px) {
+      .brand { font-size: 20px; }
+      .nav { gap: 10px; }
+      .right { width: 100%; justify-content: space-between; }
+      .nav-links { flex-wrap: wrap; }
+      .actions { flex-direction: column; align-items: stretch; }
+      .pill-btn, .btn.primary { width: 100%; justify-content: center; }
+      .mini-note { border-left: 0; padding-left: 0; }
+      .mockups { min-height: 390px; }
+      .floating-card { border-radius: 18px; }
+      .card-a { width: 90vw; height: 180px; }
+      .card-b { width: 84vw; height: 138px; }
+      .card-c { width: 90vw; height: 160px; }
+      .card-d { width: 102px; height: 102px; }
+      .feature { min-height: 0; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="nav">
-      <div class="brand">
-        <img src="./assets/branding/app_icon.png" alt="GigBit Logo" />
-        <span>GigBit</span>
-      </div>
-      <div class="right">
-        <button class="action-icon-btn" id="langBtn" data-lang="EN" aria-label="Language">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M3 12H21M12 3C8.5 6.2 8.5 17.8 12 21M12 3C15.5 6.2 15.5 17.8 12 21M4.8 7.5H19.2M4.8 16.5H19.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <button class="action-icon-btn" id="themeBtn" aria-label="Theme">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3A6.8 6.8 0 0 0 21 12.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <a class="btn" href="admin.html" id="adminBtn">Admin Access</a>
-      </div>
-    </header>
-
-    <section class="section-block">
-      <p class="section-kicker" id="aboutK">About</p>
-      <h2 class="section-heading" id="aboutT">Built For India’s Gig Worker Economy</h2>
-      <p class="section-desc" id="aboutD">GigBit combines earnings tracking, benefits, support, and tax readiness into one worker-first platform. The app is designed to reduce financial stress and make daily operations clear, fast, and reliable.</p>
-    </section>
-
-    <section class="section-block">
-      <p class="section-kicker" id="everythingK">Everything Workers Need In One Place</p>
-    </section>
-
-    <section class="hero">
-      <div>
-        <h1 class="headline" id="title">Financial Platform<br>For Gig Workers</h1>
-        <p class="sub" id="lead">Track earnings, trips, expenses, withdrawals, plans, and tax-ready summaries in one secure ecosystem.</p>
-        <div class="actions">
-          <a class="btn primary" href="https://github.com/GigBitVerify/GigBit/raw/main/app/releases/GigBit.apk" download="GigBit.apk" id="apkBtn">Download APK</a>
+  <div class="shell">
+    <div class="wrap">
+      <header class="nav">
+        <div class="brand">
+          <img src="./assets/branding/app_icon.png" alt="GigBit Logo" />
+          <span>GigBit</span>
         </div>
-        <div class="stats">
-          <div class="stat glass-card popup-trigger" data-popup-title="Active Platform Integrations">
-            <div class="k" id="s1">Active Platform Integrations</div>
-            <div class="v" id="s1v">6</div>
-            <div class="popup-hint" id="viewDetails1">View Details</div>
-            <div class="expand-panel">
-              <div class="details-grid" id="platformDetailsGrid">
-                <div class="detail-card"><img src="./assets/platforms/zomato.png" alt="Zomato" /><div><b id="p1">Zomato</b><span>Platform</span></div></div>
-                <div class="detail-card"><img src="./assets/platforms/blinkit.png" alt="Blinkit" /><div><b id="p3">Blinkit</b><span>Platform</span></div></div>
-                <div class="detail-card"><img src="./assets/platforms/rapido.png" alt="Rapido" /><div><b id="p4">Rapido</b><span>Platform</span></div></div>
-                <div class="detail-card"><img class="ola-light-bg" src="./assets/platforms/ola.png" alt="Ola" /><div><b id="p6">Ola</b><span>Platform</span></div></div>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#aboutK">About</a>
+          <a href="#featuresK">Features</a>
+          <a href="#howK">Works</a>
+          <a href="#contactTitle">Shop</a>
+        </nav>
+        <div class="right">
+          <button class="action-icon-btn" id="langBtn" data-lang="EN" aria-label="Language">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 12H21M12 3C8.5 6.2 8.5 17.8 12 21M12 3C15.5 6.2 15.5 17.8 12 21M4.8 7.5H19.2M4.8 16.5H19.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="action-icon-btn" id="themeBtn" aria-label="Theme">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3A6.8 6.8 0 0 0 21 12.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <a class="btn primary" href="#heroCta" id="getAppBtn">Get App</a>
+          <a class="btn" href="admin.html" id="adminBtn">Sign In</a>
+        </div>
+      </header>
+      <div class="workspace">
+        <aside class="side-rail">
+          <div class="rail-title">GigBit</div>
+          <div class="rail-nav">
+            <div class="rail-item active"><span>■</span><span>Dashboard</span></div>
+            <div class="rail-item"><span>◌</span><span>About</span></div>
+            <div class="rail-item"><span>◌</span><span>Features</span></div>
+            <div class="rail-item"><span>◌</span><span>Works</span></div>
+          </div>
+          <div class="premium-box">
+            <div>
+              <p class="kicker" style="color:rgba(255,255,255,.78);">Get App</p>
+              <strong>Android application</strong><br />
+              <span>Coming soon</span>
+            </div>
+            <a class="btn" href="https://github.com/GigBitVerify/GigBit/raw/main/app/releases/GigBit.apk" download="GigBit.apk" id="apkBtnSide">Upgrade</a>
+          </div>
+        </aside>
+
+        <main class="hero-stack">
+          <section class="hero" id="heroCta">
+            <div class="hero-copy">
+              <div class="eyebrow" id="aboutK">Customize everything</div>
+              <h1 class="headline" id="title">Financial Platform<br>For Gig Workers</h1>
+              <p class="sub" id="lead">Track earnings, trips, expenses, withdrawals, plans, and tax-ready summaries in one secure ecosystem.</p>
+              <div class="actions">
+                <a class="pill-btn" href="https://github.com/GigBitVerify/GigBit/raw/main/app/releases/GigBit.apk" download="GigBit.apk" id="apkBtn">Download APK</a>
+                <div class="mini-note" id="miniNote">Android application<br>Coming soon</div>
               </div>
             </div>
-          </div>
-          <div class="stat glass-card popup-trigger" data-popup-title="Subscription Tiers">
-            <div class="k" id="s2">Subscription Tiers</div>
-            <div class="v">3</div>
-            <div class="popup-hint" id="viewDetails2">View Details</div>
-            <div class="expand-panel">
-              <div class="details-grid">
-                <div class="detail-card"><div><b id="plan1">Solo</b><span id="plan1d">Rs 25 / Month • Up To 1 Platform</span></div></div>
-                <div class="detail-card"><div><b id="plan2">Duo</b><span id="plan2d">Rs 50 / Month • Up To 2 Platforms</span></div></div>
-                <div class="detail-card"><div><b id="plan3">Trio</b><span id="plan3d">Rs 75 / Month • Up To 3 Platforms</span></div></div>
+            <div class="mockups" aria-hidden="true">
+              <div class="floating-card card-a">
+                <div class="mini-chart">
+                  <div class="label">Weekly Status</div>
+                  <div class="spark"></div>
+                  <div class="label" style="display:flex;justify-content:space-between;gap:10px;"><span>Graph</span><span>Live</span></div>
+                </div>
+              </div>
+              <div class="floating-card card-b">
+                <div class="mini-chart dark">
+                  <div class="label">Main Balance</div>
+                  <div class="value">$984,556.34</div>
+                  <div class="label" style="display:flex;justify-content:space-between;gap:10px;"><span>Card Holder</span><span>Roberto Karloz</span></div>
+                </div>
+              </div>
+              <div class="floating-card card-c">
+                <div class="mini-chart">
+                  <div class="label" style="display:flex;justify-content:space-between;gap:10px;"><span>Budget Spend</span><span>Activity</span></div>
+                  <div class="donut-row">
+                    <div class="donut"></div>
+                    <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-d">
+                <div class="badge">↗</div>
               </div>
             </div>
-          </div>
-          <div class="stat glass-card"><div class="k" id="s3">Built For</div><div class="v" id="s3v">Workers</div></div>
-        </div>
-      </div>
-      <aside class="hero-right">
-        <h2 class="list-title" id="rTitle">Everything Workers Need In One Place</h2>
-        <div class="line-item glass-card"><b id="r1t">Platform Integrations</b><span id="r1d">Connect Zomato, Blinkit, Rapido, and Ola with one flow.</span></div>
-        <div class="line-item glass-card"><b id="r2t">Smart Expense + Tax</b><span id="r2d">Daily fuel/rent tracking plus tax-ready summaries for fast filing.</span></div>
-        <div class="line-item glass-card"><b id="r3t">Plans, Insurance, Withdrawals</b><span id="r3d">Manage limits, benefits, support tickets, and withdrawal history.</span></div>
-      </aside>
-    </section>
+          </section>
 
-    <div class="band">
-      <span id="b1">Real Time Platform Sync</span>
-      <span id="b2">Unified Expense Tracker</span>
-      <span id="b3">Tax Assistant + ITR Summary</span>
-      <span id="b4">Admin Controlled Integrations</span>
+          <section class="dash-panel">
+            <div class="dash-top">
+              <div class="search-box">Search</div>
+              <div class="mini-chip">EN</div>
+              <div class="mini-chip">☼</div>
+              <div class="profile-chip"><div class="avatar"></div><span>Sarah Miller</span></div>
+            </div>
+            <div class="main-grid">
+              <div class="dash-card hero-card">
+                <p class="kicker" id="everythingK">Quality guaranteed</p>
+                <h2 class="section-heading" id="aboutT">Create Your Own Mobile App Website In No Time Without Any Coding Knowledge.</h2>
+                <p class="section-desc" id="aboutD">GigBit combines earnings tracking, benefits, support, and tax readiness into one worker-first platform. The app is designed to reduce financial stress and make daily operations clear, fast, and reliable.</p>
+              </div>
+              <div class="dash-card">
+                <p class="kicker" id="rTitle">Everything Workers Need In One Place</p>
+                <div class="transactions">
+                  <div class="txn"><span id="w1t">Download And Register</span><span>14h ago</span></div>
+                  <div class="txn"><span id="w2t">Purchases Subscription Plans</span><span>20 hours ago</span></div>
+                  <div class="txn"><span id="w3t">Sync Trips And Earnings</span><span>13:33 12.06.2020</span></div>
+                  <div class="txn"><span id="w4t">Withdraw And File Tax</span><span>12:00 12.06.2020</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="charts-grid">
+              <div class="chart-card">
+                <p class="kicker" id="featuresK">Features</p>
+                <h2 class="section-heading" id="featuresT">Here’s How We Are Different From Others</h2>
+                <p class="section-desc">Credibly simplify multidisciplinary best practices and wireless content. Authoritatively build premium.</p>
+                <div class="meter">
+                  <div class="meter-row">
+                    <div class="top"><span>Development</span><span>90</span></div>
+                    <div class="bar"><span style="width:90%"></span></div>
+                  </div>
+                  <div class="meter-row">
+                    <div class="top"><span>Design</span><span>80</span></div>
+                    <div class="bar"><span style="width:80%"></span></div>
+                  </div>
+                </div>
+                <a class="pill-btn" href="#contactTitle" id="contactBtn">Get in touch</a>
+              </div>
+              <div class="chart-card">
+                <div class="top" style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                  <p class="kicker" style="margin:0;">Statistics</p>
+                  <div class="mini-chip" style="height:34px;">6 months</div>
+                </div>
+                <div class="chart-bars">
+                  <span style="height:66%"></span><span style="height:52%"></span><span style="height:82%"></span><span style="height:58%"></span><span style="height:74%"></span><span style="height:40%"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-split">
+              <div class="feature">
+                <div class="icon">◐</div>
+                <h3 id="f1t">Flexible Settings</h3>
+                <p id="f1d">Collaboratively underwhelm end-to-end channels via cut-of-the-box core competencies.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">▤</div>
+                <h3 id="f2t">Dedicated Support</h3>
+                <p id="f2d">Completely evolve cross-platform innovation rather than transparent alignments.</p>
+              </div>
+            </div>
+            <div class="grid-cards" style="margin-top:18px;">
+              <div class="feature">
+                <div class="icon">◔</div>
+                <h3 id="f3t">Lifetime Updates</h3>
+                <p id="f3d">Conveniently morph goal-oriented growth strategies and resource sucking total linkage.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">△</div>
+                <h3 id="f4t">Unique Design</h3>
+                <p id="f4d">Appropriately drive bricks-and-clicks customer service through just in time supply chains.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">01</div>
+                <h3>Loan Benefits</h3>
+                <p>Eligible users can apply for loans in-app, track approval stages, and see clear repayment context.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">02</div>
+                <h3>GigBit Insurance</h3>
+                <p>Opt-in insurance support with monthly contribution logic and admin claim approvals.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">03</div>
+                <h3>Instant Withdrawals</h3>
+                <p>Withdrawable balance is shown clearly with transaction history and admin withdrawal tracking.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">04</div>
+                <h3>Tax Chatbot Assistance</h3>
+                <p>Tax assistant supports queries about platform earnings, tax basics, and ITR-ready summaries.</p>
+              </div>
+            </div>
+
+            <section class="faq">
+              <div class="faq-grid">
+                <div>
+                  <p class="kicker" id="howK">How GigBit Works</p>
+                  <h2 class="section-heading" id="wTitle">How GigBit Works</h2>
+                  <div class="faq-list">
+                    <div class="faq-item"><span>01</span><div id="w1t">Download And Register</div></div>
+                    <div class="faq-item"><span>02</span><div id="w2t">Purchases Subscription Plans</div></div>
+                    <div class="faq-item"><span>03</span><div id="w3t">Sync Trips And Earnings</div></div>
+                    <div class="faq-item"><span>04</span><div id="w4t">Withdraw And File Tax</div></div>
+                  </div>
+                </div>
+                <div class="faq-art">
+                  <div class="floating-card card-e">
+                    <div class="mini-chart dark">
+                      <div class="label">Main Balance</div>
+                      <div class="value">$984,556.34</div>
+                      <div class="label">Live overview</div>
+                    </div>
+                  </div>
+                  <div class="floating-card card-f">
+                    <div class="mini-chart">
+                      <div class="label" style="display:flex;justify-content:space-between;gap:10px;"><span>Card Activity</span><span>...</span></div>
+                      <div style="display:grid;gap:10px;margin-top:8px;">
+                        <div style="display:flex;justify-content:space-between;gap:10px;font-weight:800;"><span>Tapup</span><span>+$550</span></div>
+                        <div style="display:flex;justify-content:space-between;gap:10px;font-weight:800;"><span>Withdraw</span><span>-$250</span></div>
+                        <div style="display:flex;justify-content:space-between;gap:10px;font-weight:800;"><span>Subscription</span><span>-$200</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+        </main>
+      </div>
+      <footer class="footer">
+        <div class="left" id="copyrightTxt2">Copyright © 2026 GigBit Technologies. All Rights Reserved.</div>
+        <div class="right">
+          <div id="contactTitle2">Contact</div>
+          <div><a href="mailto:support@gigbit.app" id="contactEmail2">support@gigbit.app</a></div>
+          <div id="contactPhone2">Helpline: +91 90000 00000</div>
+          <div id="contactWhatsApp2">WhatsApp: +91 90000 00000</div>
+        </div>
+      </footer>
     </div>
-
-    <section class="section-block">
-      <p class="section-kicker" id="featuresK">Features</p>
-      <h2 class="section-heading" id="featuresT">Detailed Worker Features</h2>
-    </section>
-
-    <section class="features">
-      <div class="feature glass-card">
-        <h3 id="f1t">Loan Benefits</h3>
-        <p id="f1d">Eligible users can apply for loans in-app, track approval stages, and see clear repayment context.</p>
-      </div>
-      <div class="feature glass-card">
-        <h3 id="f2t">GigBit Insurance</h3>
-        <p id="f2d">Opt-in insurance support with monthly contribution logic and admin claim approvals.</p>
-      </div>
-      <div class="feature glass-card">
-        <h3 id="f3t">Instant Withdrawals</h3>
-        <p id="f3d">Withdrawable balance is shown clearly with transaction history and admin withdrawal tracking.</p>
-      </div>
-      <div class="feature glass-card">
-        <h3 id="f4t">Tax Chatbot Assistance</h3>
-        <p id="f4d">Tax assistant supports queries about platform earnings, tax basics, and ITR-ready summaries.</p>
-      </div>
-      <div class="feature glass-card">
-        <h3 id="f5t">Help And Support</h3>
-        <p id="f5d">Raise tickets, check status updates, and access support channels from within the app.</p>
-      </div>
-      <div class="feature glass-card">
-        <h3 id="f6t">Smart Subscription Plans</h3>
-        <p id="f6d">Solo, Duo, and Trio plans control platform integration limits with clear expiry tracking.</p>
-      </div>
-    </section>
-
-    <section class="timeline">
-      <p class="section-kicker" id="howK">How GigBit Works</p>
-      <h2 id="wTitle">How GigBit Works</h2>
-      <div class="steps">
-        <article class="step glass-card">
-          <div class="n">Step 01</div>
-          <h4 id="w1t">Download And Register</h4>
-          <p id="w1d">Install the Android app, verify your email, and create your worker profile.</p>
-        </article>
-        <article class="step glass-card">
-          <div class="n">Step 02</div>
-          <h4 id="w2t">Purchases Subscription Plans</h4>
-          <p id="w2d">Purchase Solo, Duo, or Trio subscription plan, then connect platform.</p>
-        </article>
-        <article class="step glass-card">
-          <div class="n">Step 03</div>
-          <h4 id="w3t">Sync Trips And Earnings</h4>
-          <p id="w3d">Track platform earnings, completed trips, and real expenses in one dashboard.</p>
-        </article>
-        <article class="step glass-card">
-          <div class="n">Step 04</div>
-          <h4 id="w4t">Withdraw And File Tax</h4>
-          <p id="w4d">Withdraw balance, use support features, and generate ITR-ready summaries.</p>
-        </article>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="left" id="copyrightTxt">Copyright © 2026 GigBit Technologies. All Rights Reserved.</div>
-      <div class="right">
-        <div id="contactTitle">Contact</div>
-        <div><a href="mailto:support@gigbit.app" id="contactEmail">support@gigbit.app</a></div>
-        <div id="contactPhone">Helpline: +91 90000 00000</div>
-        <div id="contactWhatsApp">WhatsApp: +91 90000 00000</div>
-      </div>
-    </footer>
   </div>
+
   <div class="info-overlay" id="infoOverlay">
     <div class="info-modal">
       <button class="info-close" id="infoClose" aria-label="Close">x</button>
@@ -592,43 +1153,16 @@
   <script>
     const dict = {
       en: {
-        aboutK: "About",
-        aboutT: "Built For India’s Gig Worker Economy",
+        aboutK: "Customize everything",
+        aboutT: "Create Your Own Mobile App Website In No Time Without Any Coding Knowledge.",
         aboutD: "GigBit combines earnings tracking, benefits, support, and tax readiness into one worker-first platform. The app is designed to reduce financial stress and make daily operations clear, fast, and reliable.",
-        everythingK: "Everything Workers Need In One Place",
-        title: "Financial Platform<br>For Gig Workers",
+        everythingK: "Quality guaranteed",
+        title: "Versatile Solution For Your Everyday Needs",
         lead: "Track earnings, trips, expenses, withdrawals, plans, and tax-ready summaries in one secure ecosystem.",
-        adminBtn: "Admin Access",
+        adminBtn: "Sign In",
+        getAppBtn: "Get App",
         apkBtn: "Download APK",
-        apkBtnAlt: "Download For iOS",
-        apkBtn2: "Get Latest Android APK",
-        s1: "Active Platform Integrations",
-        s2: "Subscription Tiers",
-        s3: "Built For",
-        s3v: "Workers",
-        p1: "Zomato",
-        p3: "Blinkit",
-        p4: "Rapido",
-        p6: "Ola",
-        plan1: "Solo",
-        plan2: "Duo",
-        plan3: "Trio",
-        plan1d: "Rs 25 / Month • Up To 1 Platform",
-        plan2d: "Rs 50 / Month • Up To 2 Platforms",
-        plan3d: "Rs 75 / Month • Up To 3 Platforms",
-        viewDetails1: "View Details",
-        viewDetails2: "View Details",
-        rTitle: "Everything Workers Need In One Place",
-        r1t: "Platform Integrations",
-        r1d: "Connect Zomato, Blinkit, Rapido, and Ola with one flow.",
-        r2t: "Smart Expense + Tax",
-        r2d: "Daily fuel/rent tracking plus tax-ready summaries for fast filing.",
-        r3t: "Plans, Insurance, Withdrawals",
-        r3d: "Manage limits, benefits, support tickets, and withdrawal history.",
-        b1: "Real Time Platform Sync",
-        b2: "Unified Expense Tracker",
-        b3: "Tax Assistant + ITR Summary",
-        b4: "Admin Controlled Integrations",
+        miniNote: "Android application<br>Coming soon",
         featuresK: "Features",
         featuresT: "Detailed Worker Features",
         f1t: "Loan Benefits",
@@ -646,13 +1180,11 @@
         howK: "How GigBit Works",
         wTitle: "How GigBit Works",
         w1t: "Download And Register",
-        w1d: "Install the Android app, verify your email, and create your worker profile.",
         w2t: "Purchases Subscription Plans",
-        w2d: "Purchase Solo, Duo, or Trio subscription plan, then connect platform.",
         w3t: "Sync Trips And Earnings",
-        w3d: "Track platform earnings, completed trips, and real expenses in one dashboard.",
         w4t: "Withdraw And File Tax",
-        w4d: "Withdraw balance, use support features, and generate ITR-ready summaries.",
+        rTitle: "Everything Workers Need In One Place",
+        r1d: "Connect Zomato, Blinkit, Rapido, and Ola with one flow.",
         copyrightTxt: "Copyright © 2026 GigBit Technologies. All Rights Reserved.",
         contactTitle: "Contact",
         contactEmail: "support@gigbit.app",
@@ -662,9 +1194,8 @@
       hi: {},
       mr: {}
     };
-
-    dict.hi = { ...dict.en, adminBtn: "एडमिन एक्सेस", apkBtn: "APK डाउनलोड", apkBtnAlt: "iOS के लिए डाउनलोड", apkBtn2: "नवीनतम Android APK", contactTitle: "संपर्क" };
-    dict.mr = { ...dict.en, adminBtn: "अ‍ॅडमिन ऍक्सेस", apkBtn: "APK डाउनलोड", apkBtnAlt: "iOS साठी डाउनलोड", apkBtn2: "लेटेस्ट Android APK", contactTitle: "संपर्क" };
+    dict.hi = { ...dict.en, adminBtn: "साइन इन", getAppBtn: "ऐप लें", apkBtn: "APK डाउनलोड", miniNote: "Android application<br>जल्द आ रहा है", contactTitle: "संपर्क" };
+    dict.mr = { ...dict.en, adminBtn: "साइन इन", getAppBtn: "ॲप घ्या", apkBtn: "APK डाउनलोड", miniNote: "Android application<br>लवकरच येत आहे", contactTitle: "संपर्क" };
 
     const langBtn = document.getElementById("langBtn");
     const themeBtn = document.getElementById("themeBtn");
@@ -731,38 +1262,12 @@
         if (!res.ok) return;
         const data = await res.json();
         const items = Array.isArray(data.items) ? data.items : [];
-        const s1v = document.getElementById("s1v");
-        if (s1v) s1v.textContent = String(items.length);
-
-        const detailsGrid = document.getElementById("platformDetailsGrid");
-        if (detailsGrid) {
-          detailsGrid.innerHTML = items.map((item) => {
-            const slug = String(item.slug || "").toLowerCase();
-            const name = String(item.name || slug || "Platform");
-            const logo = String(item.logo_url || "").trim() || fallbackLogoBySlug(slug);
-            const lowerName = name.trim().toLowerCase();
-            const needsLightBg = slug === "ola" || lowerName.includes("ola");
-            const escapedName = name.replace(/</g, "&lt;");
-            const escapedLogo = logo.replace(/"/g, "&quot;");
-            return `<div class="detail-card">
-              <img class="${needsLightBg ? "ola-light-bg" : ""}" src="${escapedLogo}" alt="${escapedName}" onerror="this.style.display='none'" />
-              <div><b>${escapedName}</b><span>Platform</span></div>
-            </div>`;
-          }).join("") || `<div class="detail-card"><div><b>No Active Platform</b><span>Platform</span></div></div>`;
-        }
-
         const r1d = document.getElementById("r1d");
         if (r1d) {
           const names = items.map((x) => String(x.name || "").trim()).filter(Boolean);
-          if (names.length > 0) {
-            r1d.textContent = `Connect ${names.join(", ")} with one flow.`;
-          } else {
-            r1d.textContent = "No platforms are active right now. Admin can enable them anytime.";
-          }
+          if (names.length > 0) r1d.textContent = `Connect ${names.join(", ")} with one flow.`;
         }
-      } catch (_) {
-        // keep landing usable if API is offline
-      }
+      } catch (_) {}
     }
 
     function startPlatformCatalogStream() {
@@ -776,17 +1281,16 @@
       }
       const apiBase = resolveApiBase();
       platformCatalogSource = new EventSource(`${apiBase}/platforms/catalog/stream`);
-      platformCatalogSource.addEventListener("platform_catalog", () => {
-        refreshPlatformCatalog();
-      });
-      platformCatalogSource.onmessage = () => {
-        refreshPlatformCatalog();
-      };
+      platformCatalogSource.addEventListener("platform_catalog", refreshPlatformCatalog);
+      platformCatalogSource.onmessage = refreshPlatformCatalog;
       platformCatalogSource.onerror = () => {
         if (platformCatalogTimer) clearInterval(platformCatalogTimer);
         platformCatalogTimer = setInterval(refreshPlatformCatalog, 5000);
       };
     }
+
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
 
     function setTheme(next) {
       theme = next;
@@ -812,8 +1316,54 @@
         const el = document.getElementById(k);
         if (!el) return;
         if (k === "title") el.innerHTML = d[k];
+        else if (k === "miniNote") el.innerHTML = d[k];
         else el.textContent = d[k];
       });
+      const email2 = document.getElementById("contactEmail2");
+      if (email2) email2.textContent = d.contactEmail;
+      const phone2 = document.getElementById("contactPhone2");
+      if (phone2) phone2.textContent = d.contactPhone;
+      const whats2 = document.getElementById("contactWhatsApp2");
+      if (whats2) whats2.textContent = d.contactWhatsApp;
+      const title2 = document.getElementById("contactTitle2");
+      if (title2) title2.textContent = d.contactTitle;
+      const copyright2 = document.getElementById("copyrightTxt2");
+      if (copyright2) copyright2.textContent = d.copyrightTxt;
+    }
+
+    function initMotion() {
+      const revealTargets = [
+        ".side-rail",
+        ".hero",
+        ".dash-panel",
+        ".hero-card",
+        ".stat-card",
+        ".chart-card",
+        ".feature",
+        ".faq-item",
+        ".floating-card",
+      ];
+      document.querySelectorAll(revealTargets.join(",")).forEach((el) => {
+        el.classList.add("reveal", "glow-hover");
+      });
+      document.querySelectorAll(".btn, .action-icon-btn, .pill-btn").forEach((el) => {
+        el.classList.add("glow-hover");
+      });
+      document.querySelectorAll(".premium-box, .rail-item, .search-box, .mini-chip, .profile-chip").forEach((el) => {
+        el.classList.add("glow-hover");
+      });
+      document.querySelectorAll(".chart-card, .feature:nth-child(1), .feature:nth-child(3), .hero-card").forEach((el) => {
+        el.classList.add("pulse");
+      });
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     }
 
     langBtn.addEventListener("click", () => {
@@ -844,19 +1394,13 @@
 
     setTheme(theme);
     setLang(lang);
+    initMotion();
     refreshPlatformCatalog();
     hasValidAdminSession().then((ok) => {
       if (ok) window.location.replace("admin.html");
-    });
-    window.addEventListener("storage", (e) => {
-      if (e.key === "gigbit_platform_catalog_version") {
-        refreshPlatformCatalog();
-      }
     });
     if (platformCatalogTimer) clearInterval(platformCatalogTimer);
     startPlatformCatalogStream();
   </script>
 </body>
 </html>
-
-

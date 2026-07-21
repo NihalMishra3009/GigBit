@@ -10,7 +10,7 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('auth_token');
   final langRaw = prefs.getString('app_language') ?? 'en';
-  final themeRaw = prefs.getString('theme_mode') ?? ThemeMode.dark.name;
+  final themeRaw = prefs.getString('theme_mode') ?? ThemeMode.system.name;
 
   final language = AppLanguage.values.firstWhere(
     (e) => e.name == langRaw,
@@ -18,7 +18,7 @@ Future<void> main() async {
   );
   final themeMode = ThemeMode.values.firstWhere(
     (e) => e.name == themeRaw,
-    orElse: () => ThemeMode.dark,
+    orElse: () => ThemeMode.system,
   );
 
   runApp(

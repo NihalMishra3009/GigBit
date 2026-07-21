@@ -1,11 +1,8 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set REPO=C:\Users\Hemant\Desktop\Projects\GigBit
-if not exist "%REPO%\app\frontend\flutter_app\pubspec.yaml" (
-  for %%I in ("%~dp0..") do set REPO=%%~fI
-)
-set FLUTTER=C:\src\flutter\bin\flutter.bat
+for %%I in ("%~dp0..") do set REPO=%%~fI
+set FLUTTER=C:\flutter\bin\flutter.bat
 set ADB=adb
 
 set HOST_PORT=4000

@@ -1024,7 +1024,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 12),
+                                const SizedBox(height: 8),
                                 Expanded(
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -1110,7 +1110,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 12),
+                                const SizedBox(height: 8),
                                 Row(
                                   children: [
                                     Expanded(
@@ -2946,7 +2946,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               color: Theme.of(context).colorScheme.error,
                               fontWeight: FontWeight.w700)),
                     ],
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     FilledButton(
                       onPressed: busy ? null : submit,
                       child: Text(busy
@@ -3199,7 +3199,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   FilledButton(
                     onPressed: busy
                         ? null
@@ -3593,7 +3593,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(height: 12),
+                                      const SizedBox(height: 8),
                                     ] else if ((_subscription[
                                                 'activePlanExpiresAt'] ??
                                             '')
@@ -3656,7 +3656,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             if (modalError != null)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
+                                padding: const EdgeInsets.only(bottom: 8),
                                 child: Text(
                                   modalError!,
                                   style: TextStyle(
@@ -3813,7 +3813,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(labelText: t('amount')),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               FilledButton(
                 onPressed: () async {
                   await _withdraw();
@@ -3853,7 +3853,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Text(
                 "${platform.displayName.toUpperCase()} ${t('sync_earning')}",
                 style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
               ),
               const SizedBox(height: 10),
               TextField(
@@ -3861,7 +3861,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(labelText: t('amount')),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               FilledButton(
                 onPressed: () async {
                   final amount = double.tryParse(amountController.text.trim());
@@ -4269,57 +4269,69 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SafeArea(
-        minimum: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+        minimum: const EdgeInsets.fromLTRB(12, 0, 12, 6),
         child: Container(
+          height: 60,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(20),
             gradient: LinearGradient(
               colors: isDark
-                  ? const [Color(0xFF0E234A), Color(0xFF102B58)]
-                  : const [Color(0xFFEAF1FF), Color(0xFFFFFFFF)],
+                  ? const [Color(0xFF1A1530), Color(0xFF241B42)]
+                  : const [Color(0xFFFFFFFF), Color(0xFFF6F2FF)],
             ),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.12),
-                blurRadius: 22,
-                offset: const Offset(0, 10),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
               ),
               if (!isDark)
                 const BoxShadow(
                   color: Color(0x441E3A8A),
-                  blurRadius: 18,
-                  spreadRadius: 1,
+                  blurRadius: 12,
+                  spreadRadius: 0,
                 ),
             ],
             border: Border.all(
               color: isDark
                   ? Colors.white.withValues(alpha: 0.12)
                   : const Color(0x261E3A8A),
-              width: isDark ? 1 : 1.4,
+              width: isDark ? 1 : 1.2,
             ),
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: NavigationBar(
+            borderRadius: BorderRadius.circular(20),
+            child: BottomNavigationBar(
+              currentIndex: _section,
+              onTap: _onSectionChanged,
+              type: BottomNavigationBarType.fixed,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              height: 72,
-              selectedIndex: _section,
-              onDestinationSelected: _onSectionChanged,
-              destinations: [
-                NavigationDestination(
+              selectedItemColor: Theme.of(context).colorScheme.primary,
+              unselectedItemColor: const Color(0xFF7A7587),
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              iconSize: 24,
+              selectedFontSize: 0,
+              unselectedFontSize: 0,
+              selectedIconTheme: const IconThemeData(size: 24),
+              unselectedIconTheme: const IconThemeData(size: 24),
+              selectedLabelStyle: const TextStyle(fontSize: 0, height: 0),
+              unselectedLabelStyle: const TextStyle(fontSize: 0, height: 0),
+              items: [
+                BottomNavigationBarItem(
                   icon: const Icon(Icons.grid_view_rounded),
                   label: t('dashboard'),
                 ),
-                NavigationDestination(
+                BottomNavigationBarItem(
                   icon: const Icon(Icons.link_rounded),
                   label: t('integrations'),
                 ),
-                NavigationDestination(
+                BottomNavigationBarItem(
                   icon: const Icon(Icons.health_and_safety_outlined),
                   label: t('features'),
                 ),
-                NavigationDestination(
+                BottomNavigationBarItem(
                   icon: const Icon(Icons.settings_outlined),
                   label: t('settings'),
                 ),
@@ -4419,7 +4431,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Center(
                     child: Icon(
                       Icons.chat_bubble_outline,
-                      color: Colors.white,
+                      color: const Color(0xFF7C3AED),
                       size: 26,
                     ),
                   ),
@@ -4433,7 +4445,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _walletHeroCard() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final wdUsed =
         int.tryParse((_summary['withdrawalLimitUsed'] ?? '').toString()) ?? 0;
     final wdTotal =
@@ -4452,17 +4463,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: isDark
-              ? [Color(0xFF0A1F44), Color(0xFF122E66)]
-              : [Color(0xFFEAF1FF), Color(0xFFFFFFFF)],
+          colors: const [Color(0xFFFFFFFF), Color(0xFFF4EEFF)],
         ),
         border: Border.all(
-          color:
-              isDark ? Colors.white.withValues(alpha: 0.08) : Color(0x261E3A8A),
+          color: const Color(0xFFE0D6FA),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.08),
+            color: const Color(0x331E3A8A),
             blurRadius: 24,
             offset: Offset(0, 8),
           ),
@@ -4476,7 +4484,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Text(
                 t('total_withdrawable_balance'),
                 style: TextStyle(
-                  color: isDark ? Color(0xFFD2DCF0) : Color(0xFF000000),
+                  color: const Color(0xFF3A314D),
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
                 ),
@@ -4485,7 +4493,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Text(
                 'Rs ${_walletBalance.toStringAsFixed(0)}',
                 style: TextStyle(
-                  color: isDark ? Colors.white : Color(0xFF0F172A),
+                  color: const Color(0xFF111111),
                   fontSize: 32,
                   fontWeight: FontWeight.w900,
                   letterSpacing: -0.8,
@@ -4495,9 +4503,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               RichText(
                 text: TextSpan(
                   style: TextStyle(
-                    color: isDark
-                        ? Colors.white.withValues(alpha: 0.8)
-                        : const Color(0xFF1E293B),
+                    color: const Color(0xFF2F2740),
                     fontWeight: FontWeight.w700,
                     fontSize: 12,
                     height: 1.35,
@@ -4526,8 +4532,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 width: 168,
                 child: FilledButton(
                   style: FilledButton.styleFrom(
-                    backgroundColor: Color(0xFF16C784),
-                    foregroundColor: Color(0xFF052C22),
+                    backgroundColor: const Color(0xFF19C37D),
+                    foregroundColor: const Color(0xFF06261B),
                     textStyle: TextStyle(fontWeight: FontWeight.w800),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                   ),
@@ -4544,14 +4550,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: Theme.of(context)
-                    .colorScheme
-                    .surface
-                    .withValues(alpha: isDark ? 0.20 : 0.85),
+                color: const Color(0xFFF2ECFF),
                 border: Border.all(
-                  color: isDark
-                      ? Colors.white.withValues(alpha: 0.12)
-                      : const Color(0x261E3A8A),
+                  color: const Color(0xFFD6C7F8),
                 ),
               ),
               child: Text(
@@ -4559,7 +4560,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: 11,
-                  color: isDark ? Colors.white : const Color(0xFF0F172A),
+                  color: const Color(0xFF3C2B63),
                 ),
               ),
             ),
@@ -4572,7 +4573,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               visualDensity: VisualDensity.compact,
               constraints: const BoxConstraints.tightFor(width: 40, height: 40),
               onPressed: _syncAllConnectedPlatformsRandom,
-              icon: const Icon(Icons.sync),
+              icon: const Icon(Icons.sync, color: Color(0xFF7C3AED)),
             ),
           ),
         ],
@@ -5566,7 +5567,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.w900),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 10),
@@ -5618,7 +5619,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   TextField(
                     controller: _editDailyFuelController,
                     keyboardType: TextInputType.number,
@@ -5627,7 +5628,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ],
                     decoration: InputDecoration(labelText: t('daily_fuel')),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   if (vehicleRented)
                     TextField(
                       controller: _editDailyRentController,
@@ -5922,7 +5923,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               FilledButton.icon(
                 onPressed: _openSubscriptionSheet,
                 icon: const Icon(Icons.workspace_premium_outlined, size: 18),
@@ -6094,7 +6095,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 8),
       _glassCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -6669,7 +6670,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             }
 
             return SizedBox(
-              height: h * 0.78,
+              height: h * 0.66,
               child: Padding(
                 padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + bottomInset),
                 child: Column(
@@ -6747,7 +6748,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
                     ],
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     FilledButton(
                       onPressed: busy ? null : () => submit(setModalState),
                       child: Text(t('delete_account_submit')),
@@ -6780,11 +6781,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: SafeArea(
                 top: false,
                 child: ListView(
-                  padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                  padding: EdgeInsets.fromLTRB(14, 12, 14, 14),
                   children: [
                     Text(t('edit_profile'),
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w900)),
+                            fontSize: 18, fontWeight: FontWeight.w900)),
                     SizedBox(height: 12),
                     ..._profileSection(onUiUpdate: () => setSheetState(() {})),
                   ],
@@ -6844,7 +6845,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: Text(
                               t('withdrawal_history'),
                               style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w900),
+                                  fontSize: 18, fontWeight: FontWeight.w900),
                             ),
                           ),
                           Padding(
@@ -6883,7 +6884,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       if (period == 'monthly')
                         Container(
                           width: double.infinity,
@@ -6984,7 +6985,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ],
                           ),
                         ),
-                      if (period != 'daily') const SizedBox(height: 12),
+                      if (period != 'daily') const SizedBox(height: 8),
                       Expanded(
                         child: FutureBuilder<List<dynamic>>(
                           future: _api.fetchLedger(),
@@ -7286,7 +7287,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       if (period == 'monthly')
                         Container(
                           width: double.infinity,
@@ -7387,7 +7388,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ],
                           ),
                         ),
-                      if (period != 'daily') const SizedBox(height: 12),
+                      if (period != 'daily') const SizedBox(height: 8),
                       Expanded(
                         child: filtered.isEmpty
                             ? Center(
@@ -7487,7 +7488,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               Text(
                 t('payment_settings'),
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
               ),
               SizedBox(height: 12),
               TextField(
@@ -7781,11 +7782,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: SafeArea(
             top: false,
             child: ListView(
-              padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+              padding: EdgeInsets.fromLTRB(14, 12, 14, 14),
               children: [
                 Text(title,
                     style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
                 SizedBox(height: 12),
                 _glassCard(
                   child: SelectableText(
@@ -7817,28 +7818,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         [
           'GigBit Terms & Conditions',
           '',
-          '1. Platform Scope',
           'GigBit helps gig workers track earnings, expenses, insurance status, and tax assistance across integrated platforms.',
           '',
-          '2. Account Responsibility',
           'You are responsible for your login credentials, OTP usage, and all actions performed through your account.',
           '',
-          '3. Platform Integration',
           'Integrations are user-authorized. GigBit may show synced or estimated data based on available platform linkage.',
           '',
-          '4. Subscription & Plan Limits',
-          'Plan purchase determines the maximum number of platforms you can connect. Plan validity and limits are applied as shown in-app.',
+          'Plan purchase determines the maximum number of platforms you can connect, and the limits shown in-app apply.',
           '',
-          '5. Earnings, Trips, and Tax Data',
           'GigBit provides productivity and tax-support summaries for convenience. Final filing values must be reviewed by the user before submitting ITR.',
           '',
-          '6. Insurance and Benefits',
           'Insurance-related benefits are available only when opted in. Applicable charges are shown in-app and may be auto-deducted as defined.',
           '',
-          '7. Prohibited Usage',
           'Any fraudulent use, unauthorized access, abuse of OTP systems, or manipulation of records can lead to account suspension.',
           '',
-          '8. Limitation',
           'GigBit does not provide legal or CA representation. Users should consult qualified professionals for legal and tax advice.',
         ].join('\n'),
         [
@@ -8087,7 +8080,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Text(
                       t('raise_ticket'),
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w900),
+                          fontSize: 18, fontWeight: FontWeight.w900),
                     ),
                     const SizedBox(height: 10),
                     TextField(
@@ -8105,7 +8098,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         labelText: _tr3('Complaint', 'शिकायत', 'तक्रार'),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     FilledButton(
                       onPressed: busy ? null : submit,
                       child: Text(busy ? t('please_wait') : t('submit_claim')),
@@ -8418,7 +8411,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       builder: (context) {
         final h = MediaQuery.of(context).size.height;
         return SizedBox(
-          height: h * 0.78,
+          height: h * 0.66,
           child: SafeArea(
             top: false,
             child: ListView(
@@ -8427,12 +8420,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Text(
                   t('faqs'),
                   style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w900),
+                      fontSize: 18, fontWeight: FontWeight.w900),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
                 ...faqs.map(
                   (item) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: _glassCard(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -8441,7 +8434,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             item['q'] ?? '',
                             style: const TextStyle(
                               fontWeight: FontWeight.w900,
-                              fontSize: 15,
+                              fontSize: 14,
                             ),
                           ),
                           const SizedBox(height: 6),
@@ -8740,7 +8733,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     Widget conditionRow(bool ok, String title, String detail) {
       return Padding(
-        padding: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.only(bottom: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -8954,3 +8947,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
+
